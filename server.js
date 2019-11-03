@@ -1,14 +1,17 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const app = express();
+const path = require('path');
 
-const server = http.createServer(
-    (request, response) => {
-        response.setHeader("Content-Type", "text/html");
-        //response.end('/index.html');
-        fs.createReadStream(__dirname + '/index.html', 'utf8').pipe(response);
-    }
-);
+app.use(express.static(path.join(__dirname, 'public')));
+app.engine('.html', require('ejs').__express);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'html');
 
-//Starts the server
-server.listen(8080);
+app.get('/', function (req, res) {
+    res.render('index');
+  //res.sendFile(path.join(__dirname + '/index.html'));
+  //res.send('Hello ' + (req.query.name || 'anonymous') + '!');
+});
+  
+app.listen(8080);
 console.log("Server listening on port 8080");
