@@ -1,4 +1,44 @@
-.changeBg {
-  background: #333;
-  color: #0f0;
+body, html{
+  margin:0;
+  padding: 0;
 }
+
+.background{
+  background: #ccc;
+}
+
+.main-editor {
+  background: #fff;
+  /*height: 95vh;*/
+  height: 100%;
+  margin: 2% 2% 2% 2%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 16px;
+  font-family: Arial;
+  line-height: 120%;
+  line-height: 160%;
+  outline: 0;
+}
+
+.main-toolbar{
+  background: blueviolet;
+  margin: 0;
+  padding: none;
+  height: 10vh;
+  width: 100%;
+  outline: black;
+  outline-width: 2px;
+}
+
+/*.main-title{
+  width: 80%;
+  margin: 0% 10% 0% 10%;
+  white-space: pre-wrap;
+  max-lines: 1;
+  font-size: 16px;
+  font-family: Arial;
+  line-height: 120%;
+  line-height: 160%;
+  outline: 0;
+}*/
