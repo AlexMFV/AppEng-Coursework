@@ -6,9 +6,27 @@
     <title>Write It Out</title>
   </head>
   <body class="background">
-    <div id="toolbar" class="main-toolbar">Toolbar</div>
+    <div id="toolbar" class="main-toolbar">
+      <button type="button" id="bold" value="bold">Bold</button>
+      <button type="button" id="italic" value="italic">Italic</button>
+      <button type="button" id="underline" value="underline">Underline</button>
+      <button type="button" id="strikeThrough" value="strikeThrough">StrikeThrough</button>
+      <select id="fontSize">
+        <option value="font,1">10</option>
+        <option value="font,2">12</option>
+        <option value="font,3">14</option>
+        <option value="font,4">16</option>
+        <option value="font,5">18</option>
+        <option value="font,6">20</option>
+        <option value="font,7">22</option>
+      </select>
+      <button type="button" id="e">Bold</button>
+      <button type="button" id="f">Bold</button>
+      <button type="button" id="g">Bold</button>
+      <button type="button" id="h">Bold</button>
+    </div>
     <!--<input id="title" class="main-title" value="New Document"/>-->
-    <div id="editor" class="main-editor" contenteditable="true">New Document</div>
+    <div id="editor" class="main-editor" contenteditable="true">New Document, this text is just a test.</div>
   </body>
   <script src="/js/events.js"></script>
 </html>
