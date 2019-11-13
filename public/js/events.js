@@ -1,7 +1,18 @@
 //window.designMode = "on";
 
 //Enum that defines the buttons
-const types = {"button":"BUTTON", "select":"SELECT"};
+const types = {
+  "button":"BUTTON",
+  "select":"SELECT"
+};
+
+const mods = {
+  "bold":"bold",
+  "italic":"italic",
+  "strike":"strike",
+  "underline":"underline",
+  "font":"font"
+};
 
 //Runds through all the toolbar children, ie. the buttons to modify the text
 //and adds an eventlistener on click, to execute the required command.
@@ -10,23 +21,40 @@ window.onload = () => {
 
   for(let i = 0; i < buttons.length; i++){
     if(buttons[i].tagName === types.button)
-      buttons[i].addEventListener("click", executeCommand);
+      buttons[i].addEventListener("click", loadCommand);
     else if(buttons[i].tagName === types.select)
-      buttons[i].addEventListener("change", executeCommand);
+      buttons[i].addEventListener("change", loadCommand);
   }
 };
 
-//Executes the command that's defined on the button (bold, italics)
-function executeCommand(e) {
+//Determines if the commands needs a value or not then runs the funtion that executes it
+function loadCommand(e) {
   //If there's a value to be determined it splits the string into command and value
   if(e.target.value.includes(','))
   {
       const command = e.target.value.split(',')[0];
       const value = e.target.value.split(',')[1];
 
-      document.execCommand(command, false, value);
+      modifyM(e.target, command, value);
   }
   else{
-      document.execCommand(e.target.value, false);
+      modify(e.target, e.target.value);
+  }
+}
+
+//Executes single commands (commands that dont need a value)
+function modify(target, command){
+  switch(command){
+    case mods.bold: boldText(e.target); break;
+    case mods.italic: italicText(e.target); break;
+    case mods.underline: underlineText(e.target); break;
+    case mods.strike: strikeText(e.target); break;
+  }
+}
+
+//Executes commands that need to have a value
+function modifyM(target, command, value){
+  switch(command){
+    case mods.font: fontText(e.target, value); break;
   }
 }
