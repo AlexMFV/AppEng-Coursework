@@ -27,6 +27,18 @@ window.onload = () => {
   }
 };
 
+window.editor.onkeydown = (e) => {
+  if(e.code === "Tab"){
+    //indent();
+    return false;
+  }
+
+  if(e.code === "Enter"){
+    insertLine(e.target);
+    return false; //Makes the Enter key not activate
+  }
+};
+
 //Determines if the commands needs a value or not then runs the funtion that executes it
 function loadCommand(e) {
   //If there's a value to be determined it splits the string into command and value
@@ -35,7 +47,7 @@ function loadCommand(e) {
       const command = e.target.value.split(',')[0];
       const value = e.target.value.split(',')[1];
 
-      modifyM(e.target, command, value);
+      multiModify(e.target, command, value);
   }
   else{
       modify(e.target, e.target.value);
@@ -53,7 +65,7 @@ function modify(target, command){
 }
 
 //Executes commands that need to have a value
-function modifyM(target, command, value){
+function multiModify(target, command, value){
   switch(command){
     case mods.font: fontText(e.target, value); break;
   }

@@ -1,3 +1,13 @@
+//Inserts a new line when the Enter key has been pressed
+function insertLine(target){
+  const line = document.createElement("div");
+  line.setAttribute("class", "line");
+  target.appendChild(line);
+  const index = Array.prototype.indexOf.call(target.children, line);
+  console.log(index);
+  target.children[index].focus();
+}
+
 function boldText(target){
   const editor = document.getElementById("editor");
   let sel = window.getSelection().toString();
@@ -33,4 +43,9 @@ function fontText(target, value){
 
 function encapsulate(text, className){
   return text = "<span class=" + className + ">" + text + "</span>";
+}
+
+//Function to decapsulate a function
+function decapsulate(text){
+
 }
