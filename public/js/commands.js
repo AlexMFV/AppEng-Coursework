@@ -1,11 +1,21 @@
 //Inserts a new line when the Enter key has been pressed
 function insertLine(target){
-  const line = document.createElement("div");
-  line.setAttribute("class", "line");
-  target.appendChild(line);
-  const index = Array.prototype.indexOf.call(target.children, line);
-  console.log(index);
-  target.children[index].focus();
+
+
+  //const line = document.createElement("div");
+  //const range = document.createRange();
+  //let sel = window.getSelection();
+  //line.setAttribute("class", "line");
+  //target.appendChild(line);
+  //const index = Array.prototype.indexOf.call(target.children, line);
+  //console.log(index);
+  ////target.children[index].focus();
+
+  //range.setStart(target.childNodes[index], 0);
+  //range.collapse(true);
+  //sel.removeAllRanges();
+  //sel.addRange(range);
+  //target.children[index].focus();
 }
 
 function boldText(target){
