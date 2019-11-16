@@ -1,21 +1,50 @@
-//Inserts a new line when the Enter key has been pressed
-function insertLine(target){
+function insertParagraph(){
+  const selection = document.getSelection();
+  const range = selection.getRangeAt(0);
 
+  const endCont = range.endContainer;
+  const parent = range.commonAncestorContainer.parentElement;
 
-  //const line = document.createElement("div");
-  //const range = document.createRange();
-  //let sel = window.getSelection();
-  //line.setAttribute("class", "line");
-  //target.appendChild(line);
-  //const index = Array.prototype.indexOf.call(target.children, line);
-  //console.log(index);
-  ////target.children[index].focus();
+ //New paragraph to be created
+  const elem = document.createElement('div');
+  elem.innerHTML = "<br />";
 
-  //range.setStart(target.childNodes[index], 0);
-  //range.collapse(true);
-  //sel.removeAllRanges();
-  //sel.addRange(range);
-  //target.children[index].focus();
+  //If the selection has only text or text encapsulated in any element
+  if(parent.id == "")
+    parent.after(elem);
+  else
+    endCont.after(elem);
+
+    //TODO:
+    // 1 - Set the cursor on the newly created element
+    // 2 - Handle when the user adds an Enter in the middle of a line
+}
+
+//----------------------------------------------
+
+function makeHeading(e){
+  const index = document.getElementById('headingSelector').selectedIndex+1;
+  const target = e.target;
+  const selection = document.getSelection();
+  //const range = selection.getRangeAt(0);
+
+  //If a selection exists
+  if(selection.type !== "None"){
+    const parent = selection.anchorNode.parentElement;
+    //If selection's parent is a DIV
+    if(parent.nodeName === "DIV"){
+      //If the selection is not the first paragraph
+      if(parent.id == ""){
+        parent.classList.remove('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+        parent.classList.add('h'+index);
+      }
+      else {
+        //Encapsulate the initial paragraph which has no div enclosure,
+        //then add the class to that new div
+      }
+    }
+      //If selection includes more than one div (multiple paragraphs)
+  }
 }
 
 function boldText(target){

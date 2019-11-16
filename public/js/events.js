@@ -7,6 +7,7 @@ const types = {
 };
 
 const mods = {
+  "heading":"heading",
   "bold":"bold",
   "italic":"italic",
   "strike":"strike",
@@ -34,8 +35,8 @@ window.editor.onkeydown = (e) => {
   }
 
   if(e.code === "Enter"){
-    insertLine(e.target);
-    return false; //Makes the Enter key not activate
+    insertParagraph();
+    return false; //Disables the Enter key
   }
 };
 
@@ -50,13 +51,14 @@ function loadCommand(e) {
       multiModify(e.target, command, value);
   }
   else{
-      modify(e.target, e.target.value);
+      modify(e.target, e.target.value, e);
   }
 }
 
 //Executes single commands (commands that dont need a value)
-function modify(target, command){
+function modify(target, command, e){
   switch(command){
+    case mods.heading: makeHeading(e); break;
     case mods.bold: boldText(e.target); break;
     case mods.italic: italicText(e.target); break;
     case mods.underline: underlineText(e.target); break;
