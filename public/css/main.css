@@ -62,7 +62,6 @@ body, html{
   margin-bottom: 0.67em;
   margin-left: 0;
   margin-right: 0;
-  font-weight: bold;
 }
 
 .h2 {
@@ -72,7 +71,6 @@ body, html{
   margin-bottom: 0.83em;
   margin-left: 0;
   margin-right: 0;
-  font-weight: bold;
 }
 
 .h3 {
@@ -82,7 +80,6 @@ body, html{
   margin-bottom: 1em;
   margin-left: 0;
   margin-right: 0;
-  font-weight: bold;
 }
 
 .h4 {
@@ -92,7 +89,6 @@ body, html{
   margin-bottom: 1.33em;
   margin-left: 0;
   margin-right: 0;
-  font-weight: bold;
 }
 
 .h5 {
@@ -102,7 +98,6 @@ body, html{
   margin-bottom: 1.67em;
   margin-left: 0;
   margin-right: 0;
-  font-weight: bold;
 }
 
 .h6 {
@@ -112,7 +107,6 @@ body, html{
   margin-bottom: 2.33em;
   margin-left: 0;
   margin-right: 0;
-  font-weight: bold;
 }
 
 /*.main-title{
