@@ -38,7 +38,6 @@ function setCaretPosition(elemIndex, position){
   const range = document.createRange();
   const sel = window.getSelection();
   range.setStart(editor.children[elemIndex], position);
-  //range.collapse(true);
   sel.removeAllRanges();
   sel.addRange(range);
 }
@@ -49,7 +48,6 @@ function makeHeading(e){
   const index = document.getElementById('headingSelector').selectedIndex+1;
   const target = e.target;
   const selection = document.getSelection();
-  //const range = selection.getRangeAt(0);
 
   //If a selection exists
   if(selection.type !== "None"){
@@ -62,8 +60,13 @@ function makeHeading(e){
         parent.classList.add('h'+index);
       }
       else {
-        //Encapsulate the initial paragraph which has no div enclosure,
-        //then add the class to that new div
+        if(parent.childNodes.length > 0){
+          console.log(parent.firstChild);
+          const newDiv = document.createElement('div');
+          newDiv.innerText = parent.firstChild.textContent;
+          newDiv.classList.add('h'+index);
+          parent.replaceChild(newDiv, parent.firstChild);
+        }
       }
     }
       //If selection includes more than one div (multiple paragraphs)
@@ -80,7 +83,7 @@ function boldText(target){
     }
     else{
       console.log("Before: " + sel);
-      let newSel = encapsulate(sel, mods.bold);
+      let newSel = encapsulate(sel, "span", mods.bold);
       console.log("After: " + newSel);
       editor.innerHTML = editor.innerHTML.replace(sel, newSel);
     }
@@ -102,10 +105,10 @@ function boldText(target){
 //function fontText(target, value){
 //  console.log("Font Level: " + value);
 //}
-//
-//function encapsulate(text, className){
-//  return text = "<span class=" + className + ">" + text + "</span>";
-//}
+
+function encapsulate(text, tag, className){
+  return text = "<" + tag + " class=" + className + ">" + text + "</" + tag + ">";
+}
 //
 ////Function to decapsulate a function
 //function decapsulate(text){
