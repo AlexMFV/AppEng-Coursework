@@ -58,7 +58,7 @@ function loadCommand(e) {
 //Executes single commands (commands that dont need a value)
 function modify(target, command, e){
   switch(command){
-    case mods.heading: makeHeading(e); break;
+    case mods.heading: headingText(e); break;
     case mods.bold: boldText(e.target); break;
     case mods.italic: italicText(e.target); break;
     case mods.underline: underlineText(e.target); break;
