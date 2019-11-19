@@ -72,9 +72,9 @@ function insertParagraph(){
     setCaretPosition(index, 0);
 }
 
-function getCaretIndex(elem){
-
-}
+// function getCaretIndex(elem){
+//
+// }
 
 function getElementInCaret(selection){
   const range = selection.getRangeAt(0);
