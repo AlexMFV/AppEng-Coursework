@@ -1,17 +1,58 @@
 // CORE FUNCTIONALITY
 
 function insertParagraph(){
-  const selection = document.getSelection();
-  const range = selection.getRangeAt(0);
-  const endContainer = range.endContainer;
-  const parent = range.commonAncestorContainer.parentElement;
+  let selection = document.getSelection();
+  let range = selection.getRangeAt(0);
+  let endContainer = range.endContainer;
+  let parent = range.commonAncestorContainer.parentElement;
 
   //New paragraph to be created
   const elem = document.createElement('div');
-  elem.innerHTML = "<br />";
+  const br = document.createElement('br');
+  elem.appendChild(br);
 
   let index = null; //Index for the new paragraph
   if(window.editor.innerHTML !== ""){
+
+    let target = getElementInCaret(selection);
+    const start = range.startOffset;
+    let first = null;
+
+    if(target.textContent.length !== start)
+    {
+      first = target.textContent.substring(0, start);
+      const last = target.textContent.substring(start, target.textContent.length);
+
+      //first = first === "" ? " " : first;
+
+      // if(first == "")
+      // {
+      //   if(target.parentElement.id !== ""){
+      //       const elem1 = document.createElement('div');
+      //       const br1 = document.createElement('br');
+      //       elem1.appendChild(br1);
+      //       let newIndex = getIndex(window.editor.childNodes, target);
+      //       target.parentElement.insertBefore(elem1, target);
+      //       target.parentElement.removeChild(target);
+      //       setCaretPosition(newIndex, 0);
+      //       selection = document.getSelection();
+      //       range = selection.getRangeAt(0);
+      //       endContainer = range.endContainer;
+      //     }
+      //     else{
+      //       const br2 = document.createElement('br');
+      //       target.parentElement.appendChild(br2);
+      //       target.textContent = "";
+      //       parent = target.parentElement;
+      //     }
+      // }
+      // else
+      //   target.textContent = first;
+
+      target.textContent = first;
+      elem.textContent = last;
+    }
+
     //If the selection's parent is the main editor (then the first line is selected)
     if(parent.id == "")
       parent.after(elem);
@@ -29,9 +70,15 @@ function insertParagraph(){
 
   if(index != null)
     setCaretPosition(index, 0);
+}
 
-    //TODO:
-    // 2 - Handle when the user adds an Enter in the middle of a line
+function getCaretIndex(elem){
+
+}
+
+function getElementInCaret(selection){
+  const range = selection.getRangeAt(0);
+  return range.endContainer;
 }
 
 function setCaretPosition(elemIndex, position){
@@ -49,7 +96,7 @@ function getIndex(target, elem){
 
 //TEXT FORMATING AND STYLING
 
-function headingText(e){
+function textualPoint(e){
   const index = document.getElementById('headingSelector').selectedIndex+1;
   //const target = e.target;
   const selection = document.getSelection();
@@ -74,15 +121,15 @@ function headingText(e){
         else
           parent = window.editor.childNodes[i];
         console.log(parent);
-        applyHeading(parent, index)
+        applyTextualPoint(parent, index)
       }
     }
     else
-      applyHeading(parent, index);
+      applyTextualPoint(parent, index);
   }
 }
 
-function applyHeading(parent, value){
+function applyTextualPoint(parent, value){
   //If selection's parent is a DIV
   if(parent.nodeName === "DIV"){
     //If the selection is not the first paragraph nor its empty
