@@ -1,5 +1,13 @@
 // CORE FUNCTIONALITY
 
+function initializeDocument(){
+  window.editor.innerHTML = "";
+  const elem = document.createElement('div');
+  elem.appendChild(new SelectButton());
+  window.editor.appendChild(elem);
+  setCaretPosition(0, 1);
+}
+
 function insertParagraph(){
   let selection = document.getSelection();
   let range = selection.getRangeAt(0);
@@ -8,16 +16,16 @@ function insertParagraph(){
 
   //New paragraph to be created
   const elem = document.createElement('div');
-  const br = document.createElement('br');
-  elem.appendChild(br);
+  //const br = document.createElement('br');
+  //elem.appendChild(br);
 
   let index = null; //Index for the new paragraph
   if(window.editor.innerHTML !== ""){
-
     let target = getElementInCaret(selection);
     const start = range.startOffset;
     let first = null;
 
+    elem.appendChild(new SelectButton());
     if(target.textContent.length !== start)
     {
       first = target.textContent.substring(0, start);
@@ -50,7 +58,7 @@ function insertParagraph(){
       //   target.textContent = first;
 
       target.textContent = first;
-      elem.textContent = last;
+      elem.append(last);
     }
 
     //If the selection's parent is the main editor (then the first line is selected)
@@ -63,18 +71,33 @@ function insertParagraph(){
   }
   else{
     const elem2 = elem.cloneNode(true);
+    elem.appendChild(new SelectButton());
+    elem2.appendChild(new SelectButton());
     window.editor.appendChild(elem);
     window.editor.appendChild(elem2);
     index = getIndex(window.editor.children, elem2);
   }
 
   if(index != null)
-    setCaretPosition(index, 0);
+    setCaretPosition(index, 1);
 }
 
-// function getCaretIndex(elem){
-//
-// }
+// CARET GET/SET
+
+function processBackSpace(){
+  const sel = window.getSelection();
+  if(sel.rangeCount){
+    const range = sel.getRangeAt(0);
+    if(range.endOffset === 0){
+      const toDelete = getElementInCaret(sel);
+      if(toDelete.innerHTML !== "<br>" && toDelete.innerHTML !== ""){
+        window.editor.removeChild(toDelete.parentElement);
+        return true;
+      }
+    }
+  }
+  return false;
+}
 
 function getElementInCaret(selection){
   const range = selection.getRangeAt(0);
@@ -97,7 +120,7 @@ function getIndex(target, elem){
 //TEXT FORMATING AND STYLING
 
 function textualPoint(e){
-  const index = document.getElementById('headingSelector').selectedIndex+1;
+  const index = document.getElementById('levelSelector').selectedIndex+1;
   //const target = e.target;
   const selection = document.getSelection();
 
@@ -149,6 +172,24 @@ function applyTextualPoint(parent, value){
   }
 }
 
+function encapsulate(text, tag, className){
+  return text = "<" + tag + " class=" + className + ">" + text + "</" + tag + ">";
+}
+
+//BUTTON CLICKS
+
+function buttonClick(e){
+  console.log("It worked:", e.target.value);
+  if(e.target.value === "minus"){
+    e.target.value = "plus";
+    e.target.innerText = "+";
+  }
+  else {
+    e.target.value = "minus";
+    e.target.innerText = "-";
+  }
+}
+
 //function boldText(target){
 //  const editor = document.getElementById("editor");
 //  let sel = window.getSelection().toString();
@@ -181,10 +222,6 @@ function applyTextualPoint(parent, value){
 //function fontText(target, value){
 //  console.log("Font Level: " + value);
 //}
-
-function encapsulate(text, tag, className){
-  return text = "<" + tag + " class=" + className + ">" + text + "</" + tag + ">";
-}
 
 ////Function to decapsulate a function
 //function decapsulate(text){

@@ -5,7 +5,7 @@ const types = {
 };
 
 const mods = {
-  "heading":"heading",
+  "level":"level",
   "bold":"bold",
   "italic":"italic",
   "strike":"strike",
@@ -27,6 +27,30 @@ window.onload = () => {
 };
 
 window.editor.onkeydown = (e) => {
+  if(window.editor.innerHTML == "" || window.editor.innerHTML == "<br>"){
+    initializeDocument();
+  }
+
+  // if(e.code === "KeyB" && (e.metaKey || e.ctrlKey)){
+  //   //boldText();
+  //   return false;
+  // }
+  //
+  // if(e.code === "KeyU" && (e.metaKey || e.ctrlKey)){
+  //   //underlineText();
+  //   return false;
+  // }
+  //
+  // if(e.code === "KeyI" && (e.metaKey || e.ctrlKey)){
+  //   //italicText();
+  //   return false;
+  // }
+
+  if(e.code === "Backspace"){
+    if(processBackSpace())
+      return false;
+  }
+
   if(e.code === "Tab"){
     //indent();
     return false;
@@ -56,7 +80,7 @@ function loadCommand(e) {
 //Executes single commands (commands that dont need a value)
 function modify(target, command, e){
   switch(command){
-    case mods.heading: textualPoint(e); break;
+    case mods.level: textualPoint(e); break;
     case mods.bold: boldText(e.target); break;
     case mods.italic: italicText(e.target); break;
     case mods.underline: underlineText(e.target); break;
