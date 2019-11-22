@@ -109,6 +109,10 @@ body, html{
   margin-right: 0;
 }
 
+.paragraphButton{
+  margin-right: 1em;
+}
+
 /*.main-title{
   width: 80%;
   margin: 0% 10% 0% 10%;
