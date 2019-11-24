@@ -10,7 +10,9 @@ const mods = {
   "italic":"italic",
   "strike":"strike",
   "underline":"underline",
-  "font":"font"
+  "font":"font",
+  "indent":"plusIndent",
+  "deindent":"minusIndent"
 };
 
 //Runds through all the toolbar children, ie. the buttons to modify the text
@@ -89,6 +91,8 @@ function modify(target, command, e){
     case mods.italic: italicText(e.target); break;
     case mods.underline: underlineText(e.target); break;
     case mods.strike: strikeText(e.target); break;
+    case mods.indent: indentElement(); break;
+    case mods.deindent: deindentElement(); break;
   }
 }
 

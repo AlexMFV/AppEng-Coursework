@@ -118,6 +118,10 @@ body, html{
   padding-left: var(--indentValue);
 }
 
+.inputs{
+  outline: none;
+}
+
 /*.main-title{
   width: 80%;
   margin: 0% 10% 0% 10%;

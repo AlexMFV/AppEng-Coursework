@@ -84,16 +84,19 @@ function insertParagraph(){
 
 function indentElement(){
   const sel = window.getSelection();
-  const elem = getElementInCaret(sel).parentElement;
 
-  if(elem.nodeName == "DIV" && elem.id != "editor"){
-    if(!elem.classList.contains('indentation'))
-    elem.classList.add('indentation');
-    else{
-      let newValue = getComputedStyle(elem).getPropertyValue("--indentValue");
-      if(parseInt(newValue[0]) <= 8){
-        newValue = (parseInt(newValue[0])+1) + "em";
-        elem.style.setProperty('--indentValue', newValue);
+  if(sel !== null){
+    const elem = getElementInCaret(sel).parentElement;
+
+    if(elem.nodeName == "DIV" && elem.id != "editor"){
+      if(!elem.classList.contains('indentation'))
+      elem.classList.add('indentation');
+      else{
+        let newValue = getComputedStyle(elem).getPropertyValue("--indentValue");
+        if(parseInt(newValue[0]) <= 8){
+          newValue = (parseInt(newValue[0])+1) + "em";
+          elem.style.setProperty('--indentValue', newValue);
+        }
       }
     }
   }
@@ -101,17 +104,20 @@ function indentElement(){
 
 function deindentElement(){
   const sel = window.getSelection();
-  const elem = getElementInCaret(sel).parentElement;
 
-  if(elem.nodeName == "DIV" && elem.id != "editor"){
-    if(elem.classList.contains('indentation')){
-      let newValue = getComputedStyle(elem).getPropertyValue("--indentValue");
-      if(parseInt(newValue[0]) > 1){
-        newValue = (parseInt(newValue[0])-1) + "em";
-        elem.style.setProperty('--indentValue', newValue);
-      }
-      else
+  if(sel !== null){
+    const elem = getElementInCaret(sel).parentElement;
+
+    if(elem.nodeName == "DIV" && elem.id != "editor"){
+      if(elem.classList.contains('indentation')){
+        let newValue = getComputedStyle(elem).getPropertyValue("--indentValue");
+        if(parseInt(newValue[0]) > 1){
+          newValue = (parseInt(newValue[0])-1) + "em";
+          elem.style.setProperty('--indentValue', newValue);
+        }
+        else
         elem.classList.remove("indentation");
+      }
     }
   }
 }
