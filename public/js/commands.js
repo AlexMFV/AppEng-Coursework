@@ -82,6 +82,40 @@ function insertParagraph(){
     setCaretPosition(index, 1);
 }
 
+function indentElement(){
+  const sel = window.getSelection();
+  const elem = getElementInCaret(sel).parentElement;
+
+  if(elem.nodeName == "DIV" && elem.id != "editor"){
+    if(!elem.classList.contains('indentation'))
+    elem.classList.add('indentation');
+    else{
+      let newValue = getComputedStyle(elem).getPropertyValue("--indentValue");
+      if(parseInt(newValue[0]) <= 8){
+        newValue = (parseInt(newValue[0])+1) + "em";
+        elem.style.setProperty('--indentValue', newValue);
+      }
+    }
+  }
+}
+
+function deindentElement(){
+  const sel = window.getSelection();
+  const elem = getElementInCaret(sel).parentElement;
+
+  if(elem.nodeName == "DIV" && elem.id != "editor"){
+    if(elem.classList.contains('indentation')){
+      let newValue = getComputedStyle(elem).getPropertyValue("--indentValue");
+      if(parseInt(newValue[0]) > 1){
+        newValue = (parseInt(newValue[0])-1) + "em";
+        elem.style.setProperty('--indentValue', newValue);
+      }
+      else
+        elem.classList.remove("indentation");
+    }
+  }
+}
+
 // CARET GET/SET
 
 function processBackSpace(){

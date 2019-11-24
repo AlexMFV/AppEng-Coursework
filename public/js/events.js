@@ -52,7 +52,11 @@ window.editor.onkeydown = (e) => {
   }
 
   if(e.code === "Tab"){
-    //indent();
+    if(e.shiftKey === false)
+      indentElement();
+    else
+      deindentElement();
+
     return false;
   }
 

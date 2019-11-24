@@ -1,5 +1,6 @@
 :root{
   --toolbar-size: 10vh;
+  --indentValue:1em;
 }
 
 body, html{
@@ -111,6 +112,10 @@ body, html{
 
 .paragraphButton{
   margin-right: 1em;
+}
+
+.indentation{
+  padding-left: var(--indentValue);
 }
 
 /*.main-title{
