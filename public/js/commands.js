@@ -13,11 +13,8 @@ function insertParagraph(){
   let range = selection.getRangeAt(0);
   let endContainer = range.endContainer;
   let parent = range.commonAncestorContainer.parentElement;
-
   //New paragraph to be created
   const elem = document.createElement('div');
-  //const br = document.createElement('br');
-  //elem.appendChild(br);
 
   let index = null; //Index for the new paragraph
   if(window.editor.innerHTML !== ""){
@@ -25,38 +22,17 @@ function insertParagraph(){
     const start = range.startOffset;
     let first = null;
 
+    if(target.parentElement.classList.contains('indentation')){
+      let indentValue = getComputedStyle(target.parentElement).getPropertyValue("--indentValue");
+      elem.classList.add('indentation');
+      elem.style.setProperty('--indentValue', indentValue);
+    }
+
     elem.appendChild(new SelectButton());
     if(target.textContent.length !== start)
     {
       first = target.textContent.substring(0, start);
       const last = target.textContent.substring(start, target.textContent.length);
-
-      //first = first === "" ? " " : first;
-
-      // if(first == "")
-      // {
-      //   if(target.parentElement.id !== ""){
-      //       const elem1 = document.createElement('div');
-      //       const br1 = document.createElement('br');
-      //       elem1.appendChild(br1);
-      //       let newIndex = getIndex(window.editor.childNodes, target);
-      //       target.parentElement.insertBefore(elem1, target);
-      //       target.parentElement.removeChild(target);
-      //       setCaretPosition(newIndex, 0);
-      //       selection = document.getSelection();
-      //       range = selection.getRangeAt(0);
-      //       endContainer = range.endContainer;
-      //     }
-      //     else{
-      //       const br2 = document.createElement('br');
-      //       target.parentElement.appendChild(br2);
-      //       target.textContent = "";
-      //       parent = target.parentElement;
-      //     }
-      // }
-      // else
-      //   target.textContent = first;
-
       target.textContent = first;
       elem.append(last);
     }
