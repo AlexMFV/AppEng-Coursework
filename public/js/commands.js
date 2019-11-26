@@ -91,9 +91,37 @@ function deindentElement(){
           newValue = (parseInt(newValue[0])-1) + "em";
           elem.style.setProperty('--indentValue', newValue);
         }
-        else
-        elem.classList.remove("indentation");
+        else{
+          elem.classList.remove("indentation");
+          elem.removeAttribute('style');
+        }
       }
+    }
+  }
+}
+
+function updateHierarchy(){
+  const lines = window.editor.children;
+
+  for(let i = 0; i < lines.length; i++){
+    if(i+1 >= lines.length){
+      lines[i].children[0].innerText = '-';
+      break;
+    }
+    else{
+      if(lines[i].classList.contains('hidden') || lines[i+1].classList.contains('hidden'))
+      continue;
+
+      let currentStyle;
+      if(lines[i].classList.contains('indentation'))
+        currentStyle = getComputedStyle(lines[i]).getPropertyValue('--indentValue');
+      else
+        currentStyle = "0em";
+
+      if(lines[i+1].classList.contains('indentation') && getComputedStyle(lines[i+1]).getPropertyValue("--indentValue") > currentStyle)
+        lines[i].children[0].innerText = '+';
+      else
+        lines[i].children[0].innerText = '-';
     }
   }
 }
@@ -108,8 +136,10 @@ function processBackSpace(){
       const toDelete = getElementInCaret(sel);
       if(toDelete.innerHTML !== "<br>" && toDelete.innerHTML !== ""){
         window.editor.removeChild(toDelete.parentElement);
+        updateHierarchy();
         return true;
       }
+      updateHierarchy();
     }
   }
   return false;

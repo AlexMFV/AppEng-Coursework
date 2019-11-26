@@ -59,11 +59,13 @@ window.editor.onkeydown = (e) => {
     else
       deindentElement();
 
+    updateHierarchy();
     return false;
   }
 
   if(e.code === "Enter"){
     insertParagraph();
+    updateHierarchy();
     return false; //Disables the Enter key
   }
 };

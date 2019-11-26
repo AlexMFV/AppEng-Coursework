@@ -3,6 +3,8 @@ class SelectButton{
     this.button = document.createElement('button');
     this.button.addEventListener("click", buttonClick);
     this.button.classList.add("paragraphButton");
+    this.button.style.width = "25px"; //25px
+    this.button.style.height = "25px"; //25px
     this.button.innerText = "-";
     this.button.value = "minus"; //minus or plus
     this.button.setAttribute("contenteditable", false);
