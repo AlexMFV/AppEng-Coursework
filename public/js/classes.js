@@ -5,8 +5,8 @@ class SelectButton{
     this.button.classList.add("paragraphButton");
     this.button.style.width = "25px"; //25px
     this.button.style.height = "25px"; //25px
-    this.button.innerText = "-";
-    this.button.value = "minus"; //minus or plus
+    this.button.innerText = "-"; // Other Bullet point: •
+    this.button.value = "open"; //open or closed
     this.button.setAttribute("contenteditable", false);
     return this.button;
   }

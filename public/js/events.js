@@ -21,8 +21,9 @@ window.onload = () => {
   let buttons = document.getElementById('toolbar').children;
 
   for(let i = 0; i < buttons.length; i++){
-    if(buttons[i].tagName === types.button)
+    if(buttons[i].tagName === types.button){
       buttons[i].addEventListener("click", loadCommand);
+    }
     else if(buttons[i].tagName === types.select)
       buttons[i].addEventListener("change", loadCommand);
   }

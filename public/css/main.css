@@ -122,6 +122,11 @@ body, html{
   outline: none;
 }
 
+.hidden{
+  /*visibility: hidden;*/
+  display: none;
+}
+
 /*.main-title{
   width: 80%;
   margin: 0% 10% 0% 10%;

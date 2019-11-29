@@ -21,6 +21,7 @@ function insertParagraph(){
     let target = getElementInCaret(selection);
     const start = range.startOffset;
     let first = null;
+    const childNodes = window.editor.childNodes;
 
     if(target.parentElement.classList.contains('indentation')){
       let indentValue = getComputedStyle(target.parentElement).getPropertyValue("--indentValue");
@@ -38,12 +39,35 @@ function insertParagraph(){
     }
 
     //If the selection's parent is the main editor (then the first line is selected)
+    let containerIndex;
     if(parent.id == "")
-      parent.after(elem);
+      containerIndex = getIndex(childNodes, parent);
     else
-      endContainer.after(elem);
+      containerIndex = getIndex(childNodes, parent);
 
-    index = Array.prototype.indexOf.call(window.editor.children, elem);
+    //This is needed in case there is a collapsed div and the user adds a line break at the end of the collapsed DIV
+    //It needs to go to the last child and add the new line break after that child instead.
+    if(childNodes[containerIndex].children[0].textContent === "+"){
+      //let aux = containerIndex;
+      let baseValue = getIndentValue(target.parentElement);
+      for(let i = containerIndex; i < childNodes.length; i++){
+        //Code to add after the last child
+        if(i == containerIndex)
+          continue;
+
+        let child = childNodes[i];
+        let selectedValue = getIndentValue(child);
+
+        if(selectedValue <= baseValue){
+          child.before(elem);
+          break;
+        }
+      }
+    }
+    else
+      childNodes[containerIndex].after(elem);
+
+    index = getIndex(window.editor.children, elem);
   }
   else{
     const elem2 = elem.cloneNode(true);
@@ -56,6 +80,14 @@ function insertParagraph(){
 
   if(index != null)
     setCaretPosition(index, 1);
+}
+
+function getIndentValue(target){
+  const baseValue = getComputedStyle(target).getPropertyValue('--indentValue');
+
+  if(baseValue === "1em" && !target.classList.contains('indentation'))
+    return "0em";
+  return baseValue;
 }
 
 function indentElement(){
@@ -109,16 +141,13 @@ function updateHierarchy(){
       break;
     }
     else{
-      if(lines[i].classList.contains('hidden') || lines[i+1].classList.contains('hidden'))
-      continue;
+      if(lines[i].classList.contains('hidden') || lines[i].children[0].value === "closed")
+        continue;
 
-      let currentStyle;
-      if(lines[i].classList.contains('indentation'))
-        currentStyle = getComputedStyle(lines[i]).getPropertyValue('--indentValue');
-      else
-        currentStyle = "0em";
+      let currentStyle = getIndentValue(lines[i]);
+      let nextStyle = getIndentValue(lines[i+1]);
 
-      if(lines[i+1].classList.contains('indentation') && getComputedStyle(lines[i+1]).getPropertyValue("--indentValue") > currentStyle)
+      if(nextStyle > currentStyle)
         lines[i].children[0].innerText = '+';
       else
         lines[i].children[0].innerText = '-';
@@ -225,14 +254,37 @@ function encapsulate(text, tag, className){
 //BUTTON CLICKS
 
 function buttonClick(e){
-  console.log("It worked:", e.target.value);
-  if(e.target.value === "minus"){
-    e.target.value = "plus";
-    e.target.innerText = "+";
-  }
-  else {
-    e.target.value = "minus";
-    e.target.innerText = "-";
+  if(e.target.textContent === "+"){
+    const children = window.editor.children;
+    const index = getIndex(children, e.target.parentElement);
+    const parent = e.target.parentElement;
+    let baseValue = getComputedStyle(parent).getPropertyValue('--indentValue');
+
+    if(!parent.classList.contains('indentation') && baseValue === "1em")
+      baseValue = "0em";
+
+    for(let i = 0; i < children.length; i++){
+      if(i > index){
+        let selectedValue = getComputedStyle(children[i]).getPropertyValue('--indentValue');
+
+        if(!children[i].classList.contains('indentation') && selectedValue === "1em")
+          selectedValue = "0em";
+
+        if(selectedValue <= baseValue)
+          break;
+        else{
+          if(e.target.value === "open")
+            children[i].classList.add('hidden');
+          else
+            children[i].classList.remove('hidden');
+        }
+      }
+    }
+
+    if(e.target.value === "open")
+      e.target.value = "closed";
+    else
+      e.target.value = "open";
   }
 }
 
