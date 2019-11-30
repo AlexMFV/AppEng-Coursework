@@ -43,7 +43,7 @@ function insertParagraph(){
     if(parent.id == "")
       containerIndex = getIndex(childNodes, parent);
     else
-      containerIndex = getIndex(childNodes, parent);
+      containerIndex = getIndex(childNodes, endContainer);
 
     //This is needed in case there is a collapsed div and the user adds a line break at the end of the collapsed DIV
     //It needs to go to the last child and add the new line break after that child instead.
@@ -69,14 +69,14 @@ function insertParagraph(){
 
     index = getIndex(window.editor.children, elem);
   }
-  else{
-    const elem2 = elem.cloneNode(true);
-    elem.appendChild(new SelectButton());
-    elem2.appendChild(new SelectButton());
-    window.editor.appendChild(elem);
-    window.editor.appendChild(elem2);
-    index = getIndex(window.editor.children, elem2);
-  }
+  //else{
+  //  const elem2 = elem.cloneNode(true);
+  //  elem.appendChild(new SelectButton());
+  //  elem2.appendChild(new SelectButton());
+  //  window.editor.appendChild(elem);
+  //  window.editor.appendChild(elem2);
+  //  index = getIndex(window.editor.children, elem2);
+  //}
 
   if(index != null)
     setCaretPosition(index, 1);
