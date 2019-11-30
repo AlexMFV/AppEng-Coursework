@@ -288,6 +288,37 @@ function buttonClick(e){
   }
 }
 
+function buttonDoubleClick(e){
+  const sel = window.getSelection();
+  const range = sel.getRangeAt(0);
+  const startContainer = e.target.parentElement;
+  const children = window.editor.children;
+  let endContainer;
+  const baseStyle = getIndentValue(startContainer);
+
+  for(let i = getIndex(children, startContainer)+1; i < children.length; i++){
+    if(getIndentValue(children[i]) <= baseStyle){
+      endContainer = children[i-1];
+      break;
+    }
+
+    if(i === children.length-1)
+      endContainer = children[i];
+  }
+
+  if(endContainer == undefined)
+    endContainer = startContainer;
+
+  const newRange = document.createRange();
+  const elemLength = endContainer.innerText.length;
+
+  newRange.setStart(startContainer, 1);
+  newRange.setEndAfter(endContainer);
+
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(newRange);
+}
+
 //function boldText(target){
 //  const editor = document.getElementById("editor");
 //  let sel = window.getSelection().toString();
