@@ -48,10 +48,9 @@ function insertParagraph(){
     //This is needed in case there is a collapsed div and the user adds a line break at the end of the collapsed DIV
     //It needs to go to the last child and add the new line break after that child instead.
     if(childNodes[containerIndex].children[0].textContent === "+"){
-      //let aux = containerIndex;
       let baseValue = getIndentValue(target.parentElement);
       for(let i = containerIndex; i < childNodes.length; i++){
-        //Code to add after the last child
+
         if(i == containerIndex)
           continue;
 
@@ -62,6 +61,9 @@ function insertParagraph(){
           child.before(elem);
           break;
         }
+
+        if(i == childNodes.length-1)
+          child.after(elem);
       }
     }
     else
@@ -253,7 +255,7 @@ function encapsulate(text, tag, className){
 
 //BUTTON CLICKS
 
-function buttonClick(e){
+function buttonDoubleClick(e){
   if(e.target.textContent === "+"){
     const children = window.editor.children;
     const index = getIndex(children, e.target.parentElement);
@@ -288,7 +290,7 @@ function buttonClick(e){
   }
 }
 
-function buttonDoubleClick(e){
+function buttonClick(e){
   const sel = window.getSelection();
   const range = sel.getRangeAt(0);
   const startContainer = e.target.parentElement;
