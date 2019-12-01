@@ -35,7 +35,8 @@ body, html{
 
 .main-editor {
   background-color: #fff;
-  height: 100%;
+  min-height: 100%;
+  height: max-content;
   white-space: pre-wrap;
   word-wrap: break-word;
   font-size: 16px;

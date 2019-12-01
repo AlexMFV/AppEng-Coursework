@@ -15,6 +15,7 @@ function insertParagraph(){
   let parent = range.commonAncestorContainer.parentElement;
   //New paragraph to be created
   const elem = document.createElement('div');
+  elem.classList.add('line');
 
   let index = null; //Index for the new paragraph
   if(window.editor.innerHTML !== ""){
@@ -100,7 +101,7 @@ function indentElement(){
 
     if(elem.nodeName == "DIV" && elem.id != "editor"){
       if(!elem.classList.contains('indentation'))
-      elem.classList.add('indentation');
+        elem.classList.add('indentation');
       else{
         let newValue = getComputedStyle(elem).getPropertyValue("--indentValue");
         if(parseInt(newValue[0]) <= 8){
