@@ -1,3 +1,5 @@
+let interval;
+
 //Enum that defines the buttons
 const types = {
   "button":"BUTTON",
@@ -15,6 +17,12 @@ const mods = {
   "deindent":"minusIndent"
 };
 
+const state = {
+  "notsaved":"notsaved",
+  "saving":"saving",
+  "saved":"saved"
+};
+
 //Runds through all the toolbar children, ie. the buttons to modify the text
 //and adds an eventlistener on click, to execute the required command.
 window.onload = () => {
@@ -27,9 +35,25 @@ window.onload = () => {
     else if(buttons[i].tagName === types.select)
       buttons[i].addEventListener("change", loadCommand);
   }
+
+  let mainchildren = window.editor.children;
+  if(loadFromLocalFile()){
+    for(let i = 0; i < mainchildren.length; i++){
+      for(let j = 0; j < mainchildren[i].children.length; j++)
+      {
+        if(mainchildren[i].children[j].tagName === types.button){
+          mainchildren[i].children[j].addEventListener("click", buttonClick);
+          mainchildren[i].children[j].addEventListener('dblclick', buttonDoubleClick);
+        }
+      }
+    }
+  }
 };
 
 window.editor.onkeydown = (e) => {
+  clearTimeout(interval);
+  checkState(state.saving);
+
   if(window.editor.innerHTML == "" || window.editor.innerHTML == "<br>"){
     initializeDocument();
   }
@@ -65,10 +89,12 @@ window.editor.onkeydown = (e) => {
   }
 
   if(e.code === "Enter"){
-    insertParagraph();
+    insertLine();
     updateHierarchy();
     return false; //Disables the Enter key
   }
+
+  setTimer();
 };
 
 //Determines if the commands needs a value or not then runs the funtion that executes it
@@ -104,4 +130,36 @@ function multiModify(target, command, value){
   switch(command){
     case mods.font: fontText(e.target, value); break;
   }
+}
+
+function setTimer(){
+  interval = setTimeout(saveToLocalFile, 1500);
+}
+
+function checkState(type){
+  switch(type){
+    case state.notsaved: setNotSaved(); break;
+    case state.saving: setSaving(); break;
+    case state.saved: setSaved(); break;
+  }
+}
+
+//function forceSave(){
+//  checkState(state.saving);
+//  saveToLocalFile();
+//}
+
+function setNotSaved(){
+  window.saveState.className = "notsaved";
+  window.saveState.innerText = "Not Saved!";
+}
+
+function setSaving(){
+  window.saveState.className = "saving";
+  window.saveState.innerText = "Saving...";
+}
+
+function setSaved(){
+  window.saveState.className = "saved";
+  window.saveState.innerText = "Saved";
 }

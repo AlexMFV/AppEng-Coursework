@@ -1,4 +1,7 @@
 // CORE FUNCTIONALITY
+function loadDocument(){
+  loadFromLocalFile();
+}
 
 function initializeDocument(){
   window.editor.innerHTML = "";
@@ -8,7 +11,7 @@ function initializeDocument(){
   setCaretPosition(0, 1);
 }
 
-function insertParagraph(){
+function insertLine(){
   let selection = document.getSelection();
   let range = selection.getRangeAt(0);
   let endContainer = range.endContainer;
@@ -293,6 +296,7 @@ function buttonDoubleClick(e){
 
 function buttonClick(e){
   const sel = window.getSelection();
+  //Fix code
   const range = sel.getRangeAt(0);
   const startContainer = e.target.parentElement;
   const children = window.editor.children;
@@ -320,6 +324,24 @@ function buttonClick(e){
 
   window.getSelection().removeAllRanges();
   window.getSelection().addRange(newRange);
+}
+
+//LOCAL STORAGE
+
+function saveToLocalFile(){
+  localStorage.setItem("personalDoc", window.editor.innerHTML);
+  checkState(state.saved);
+}
+
+function loadFromLocalFile(){
+  if(localStorage.personalDoc){
+    window.editor.innerHTML = localStorage.getItem("personalDoc");
+    return true;
+  }
+  else
+    localStorage.setItem("personalDoc", "");
+
+  return false;
 }
 
 //function boldText(target){
