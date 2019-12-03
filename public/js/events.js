@@ -14,7 +14,8 @@ const mods = {
   "underline":"underline",
   "font":"font",
   "indent":"plusIndent",
-  "deindent":"minusIndent"
+  "deindent":"minusIndent",
+  "del":"docDelete"
 };
 
 const state = {
@@ -51,6 +52,7 @@ window.onload = () => {
 };
 
 window.editor.onkeydown = (e) => {
+  let toReturn;
   clearTimeout(interval);
   checkState(state.saving);
 
@@ -75,7 +77,7 @@ window.editor.onkeydown = (e) => {
 
   if(e.code === "Backspace"){
     if(processBackSpace())
-      return false;
+      toReturn = false;
   }
 
   if(e.code === "Tab"){
@@ -85,16 +87,18 @@ window.editor.onkeydown = (e) => {
       deindentElement();
 
     updateHierarchy();
-    return false;
+    toReturn = false;
   }
 
   if(e.code === "Enter"){
     insertLine();
     updateHierarchy();
-    return false; //Disables the Enter key
+    toReturn = false; //Disables the Enter key
   }
 
   setTimer();
+
+  return toReturn;
 };
 
 //Determines if the commands needs a value or not then runs the funtion that executes it
@@ -122,6 +126,7 @@ function modify(target, command, e){
     case mods.strike: strikeText(e.target); break;
     case mods.indent: indentElement(); break;
     case mods.deindent: deindentElement(); break;
+    case mods.del: deleteDocument(); break;
   }
 }
 

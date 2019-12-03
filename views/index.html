@@ -13,14 +13,15 @@
         <option value="1">Level 1</option>
         <option value="2">Level 2</option>
         <option value="3">Level 3</option>
+        <option value="text">Normal Text</option>
         <option value="4">Level 4</option>
         <option value="5">Level 5</option>
         <option value="6">Level 6</option>
-        <option value="text">Normal Text</option>
       </select>
-      <input class="inputs" type="image" src="/imgs/deindent.png" width="25" height="25" onclick="deindentElement();updateHierarchy()"></a>
-      <input class="inputs" type="image" src="/imgs/indent.png" width="25" height="25" onclick="indentElement();updateHierarchy()"></a>
+      <button type="button" value="minusIndent" name="button"><</button>
+      <button type="button" value="plusIndent" name="button">></button>
       <a id="saveState" class="notsaved">Not Saved!</a>
+      <button type="button" id="deleteDoc" value="docDelete" name="button">X</button>
       <!--<button type="button" id="bold" value="bold">Bold</button>
       <button type="button" id="italic" value="italic">Italic</button>
       <button type="button" id="underline" value="underline">Underline</button>

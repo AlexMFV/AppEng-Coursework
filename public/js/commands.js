@@ -161,6 +161,11 @@ function updateHierarchy(){
   }
 }
 
+function deleteDocument(){
+  clearLocalFile();
+  initializeDocument();
+}
+
 // CARET GET/SET
 
 function processBackSpace(){
@@ -239,14 +244,16 @@ function applyTextualPoint(parent, value){
     //If the selection is not the first paragraph nor its empty
     if(parent.id == "" && !parent.classList.contains('container')){
       parent.classList.remove('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
-      parent.classList.add('h' + value);
+      if(value !== 4)
+        parent.classList.add('h' + (value > 4 ? value-1 : value));
     }
     else {
       //Since the first child is not encapsulated, then this need to be done
       if(parent.childNodes.length > 0){
         const newDiv = document.createElement('div');
         newDiv.innerText = parent.firstChild.textContent;
-        newDiv.classList.add('h' + value);
+        if(value !== 4)
+          newDiv.classList.add('h' + (value > 4 ? value-1 : value));
         parent.replaceChild(newDiv, parent.firstChild);
       }
     }
@@ -342,6 +349,10 @@ function loadFromLocalFile(){
     localStorage.setItem("personalDoc", "");
 
   return false;
+}
+
+function clearLocalFile(){
+  localStorage.setItem("personalDoc", "");
 }
 
 //function boldText(target){

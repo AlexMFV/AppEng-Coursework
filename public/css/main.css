@@ -6,6 +6,7 @@
 body, html{
   margin:0;
   padding: 0;
+  font-size: 1em;
 }
 
 .background{
@@ -13,9 +14,12 @@ body, html{
 }
 
 .main-toolbar{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
   background: blueviolet;
+  display: block;
   margin: 0;
-  padding: none;
   height: 10vh;
   width: 100%;
   outline: black;
@@ -46,7 +50,7 @@ body, html{
 }
 
 .line{
-  line-height: 160%;
+  line-height: 120%;
 }
 
 .bold{
@@ -60,8 +64,9 @@ body, html{
 .h1{
   display: block;
   font-size: 2em;
-  margin-top: 0.67em;
-  margin-bottom: 0.67em;
+  max-height: 2.1em;
+  margin-top: 0.02em;
+  margin-bottom: 0.02em;
   margin-left: 0;
   margin-right: 0;
 }
@@ -69,8 +74,8 @@ body, html{
 .h2 {
   display: block;
   font-size: 1.5em;
-  margin-top: 0.83em;
-  margin-bottom: 0.83em;
+  margin-top: 0.04em;
+  margin-bottom: 0.04em;
   margin-left: 0;
   margin-right: 0;
 }
@@ -78,35 +83,35 @@ body, html{
 .h3 {
   display: block;
   font-size: 1.17em;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-top: 0.06em;
+  margin-bottom: 0.1em;
   margin-left: 0;
   margin-right: 0;
 }
 
 .h4 {
   display: block;
-  font-size: 1em;
-  margin-top: 1.33em;
-  margin-bottom: 1.33em;
+  font-size: .89em;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
   margin-left: 0;
   margin-right: 0;
 }
 
 .h5 {
   display: block;
-  font-size: .83em;
-  margin-top: 1.67em;
-  margin-bottom: 1.67em;
+  font-size: .71em;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
   margin-left: 0;
   margin-right: 0;
 }
 
 .h6 {
   display: block;
-  font-size: .67em;
-  margin-top: 2.33em;
-  margin-bottom: 2.33em;
+  font-size: .64em;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
   margin-left: 0;
   margin-right: 0;
 }
@@ -129,31 +134,29 @@ body, html{
 }
 
 .saved{
-  /*border: 2px solid #47ab00;
-  border-radius: 5px 5px 5px 5px;*/
   color: #5bdb00;
 }
 
 .saving{
-  /*border: 2px solid #1ca4d6;
-  border-radius: 5px 5px 5px 5px;*/
   color: #1ca4d6;
 }
 
 .notsaved{
-  /*border: 2px solid #d6411c;
-  border-radius: 5px 5px 5px 5px;*/
   color: #d6411c;
 }
 
-/*.main-title{
-  width: 80%;
-  margin: 0% 10% 0% 10%;
-  white-space: pre-wrap;
-  max-lines: 1;
-  font-size: 16px;
-  font-family: Arial;
-  line-height: 120%;
-  line-height: 160%;
-  outline: 0;
-}*/
+#btnIndent{
+  outline: none;
+}
+
+#btnDeIndent{
+  outline: none;
+}
+
+#saveState{
+
+}
+
+#deleteDoc{
+
+}
