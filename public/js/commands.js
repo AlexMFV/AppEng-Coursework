@@ -100,7 +100,10 @@ function indentElement(){
   const sel = window.getSelection();
 
   if(sel !== null){
-    const elem = getElementInCaret(sel).parentElement;
+    let elem = getElementInCaret(sel);
+
+    if(elem.nodeName === "#text")
+      elem = elem.parentElement;
 
     if(elem.nodeName == "DIV" && elem.id != "editor"){
       if(!elem.classList.contains('indentation'))
@@ -120,7 +123,10 @@ function deindentElement(){
   const sel = window.getSelection();
 
   if(sel !== null){
-    const elem = getElementInCaret(sel).parentElement;
+    let elem = getElementInCaret(sel);
+
+    if(elem.nodeName === "#text")
+      elem = elem.parentElement;
 
     if(elem.nodeName == "DIV" && elem.id != "editor"){
       if(elem.classList.contains('indentation')){
