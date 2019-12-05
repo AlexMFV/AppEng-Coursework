@@ -308,9 +308,6 @@ function buttonDoubleClick(e){
 }
 
 function buttonClick(e){
-  const sel = window.getSelection();
-  //Fix code
-  const range = sel.getRangeAt(0);
   const startContainer = e.target.parentElement;
   const children = window.editor.children;
   let endContainer;
