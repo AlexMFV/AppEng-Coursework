@@ -361,6 +361,9 @@ function clearLocalFile(){
 //SERVER/DATABASE METHODS
 
 function createNewAccount(usr, pwd){
+
+  //CHANGE THIS TO GET DATA AUTIMATICALLY FROM THE FORM
+
   const data = { usr, pwd };
   const options = {
     method: "POST",
@@ -370,7 +373,10 @@ function createNewAccount(usr, pwd){
     body: JSON.stringify(data)
   };
 
-  fetch('/api/create', options);
+  if(fetch('/api/create', options))
+    console.log("Account created successfully");
+  else
+    console.log("Account could not be created! User already exists!");
 }
 
 //function boldText(target){

@@ -9,13 +9,8 @@ sql.on('error', (err) => {
 });
 
 module.exports.createAccount = async (user, pwd) => {
-  //Insert into the database, user and hashed password
-  //const query = "insert into Account values($1, $2)";
-  //const result = await sql.query(query, [user, pwd]);
-
-  //console.log(result);
-
-  console.log("Created User!");
+  const query = "insert into Account(usr, pwd) values($1, $2)";
+  const result = await sql.query(query, [user, pwd]);
 };
 
 module.exports.checkUsername = async (user) => {
@@ -28,7 +23,6 @@ module.exports.checkUsername = async (user) => {
 };
 
 module.exports.checkAccount = async (user, password) => {
-  //Hash the password
   //If the username exists check if the hash password corresponds to the one on the database
   console.log("Check Account!");
 };

@@ -27,12 +27,16 @@ console.log("Server listening on port 8080");
 
 async function createAcc(req, res) {
   try{
-    console.log("Account Create POST request");
     const hashedPwd = sha256(req.body.pwd);
-    if(!await db.checkUsername(req.body.usr))
+    if(!await db.checkUsername(req.body.usr)){
       await db.createAccount(req.body.usr, hashedPwd);
-    else
-      console.log("Account Already Exists!");
+      res.status(200);
+      return true;
+    }
+    else{
+      res.status(200);
+      return false;
+    }
     res.status(200);
   }
   catch (e){
