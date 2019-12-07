@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "setup": "createdb up902282wio; psql up902282wio < database/dbinit.sql",
+    "deletedb": "dropdb up902282wio"
   },
   "repository": {
     "type": "git",

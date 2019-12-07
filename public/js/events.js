@@ -149,11 +149,6 @@ function checkState(type){
   }
 }
 
-//function forceSave(){
-//  checkState(state.saving);
-//  saveToLocalFile();
-//}
-
 function setNotSaved(){
   window.saveState.className = "notsaved";
   window.saveState.innerText = "Not Saved!";
