@@ -358,6 +358,14 @@ function clearLocalFile(){
   localStorage.setItem("personalDoc", "");
 }
 
+//DATABASE METHODS
+
+const db = require('./database/dbmodel.js');
+
+function createUserAccount(){
+  db.createAccount("carlitos", "password: teste");
+}
+
 //function boldText(target){
 //  const editor = document.getElementById("editor");
 //  let sel = window.getSelection().toString();
