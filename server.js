@@ -29,7 +29,7 @@ async function createAcc(req, res) {
   try{
     console.log("Account Create POST request");
     const hashedPwd = sha256(req.body.pwd);
-    if(!db.checkUsername(req.body.usr))
+    if(await !db.checkUsername(req.body.usr))
       await db.createAccount(req.body.usr, hashedPwd);
     else
       console.log("Account Already Exists!");
