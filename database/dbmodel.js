@@ -1,5 +1,5 @@
 const Postgres = require('pg').Client;
-const config = require('./config');
+const config = require('../config.js');
 const sql = new Postgres(config.pgsql);
 
 sql.connect();

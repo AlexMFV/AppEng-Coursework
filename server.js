@@ -1,18 +1,43 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const db = require('./database/dbmodel.js');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.json());
 app.engine('.html', require('ejs').__express);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
 
+//app.get('/api/pictures', sendPictures);
+//app.post('/api/pictures', uploader.single('picfile'), uploadPicture);
+//app.delete('/api/pictures/:id', deletePicture);
+app.post('/api/create', createAcc);
+
 app.get('/', function (req, res) {
     res.render('index');
-  //res.sendFile(path.join(__dirname + '/index.html'));
-  //res.send('Hello ' + (req.query.name || 'anonymous') + '!');
 });
-  
+
 app.listen(8080);
 console.log("Server listening on port 8080");
+
+/* SERVER FUNCTIONS */
+
+async function createAcc(req, res) {
+  try{
+    console.log("Account Create POST request");
+    console.log(req.body);
+    res.status(200);
+  }
+  catch (e){
+    error(res, e);
+  }
+
+  //try {
+  //  await db.createAccount(req.query.title, req.query.order);
+  //  res.status(200);
+  //} catch (e) {
+  //  error(res, e);
+  //}
+}
