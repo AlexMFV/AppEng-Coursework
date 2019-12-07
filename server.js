@@ -28,7 +28,7 @@ console.log("Server listening on port 8080");
 async function createAcc(req, res) {
   try{
     const hashedPwd = sha256(req.body.pwd);
-    const value;
+    let value = false;
     if(!await db.checkUsername(req.body.usr))
        value = await db.createAccount(req.body.usr, hashedPwd);
     res.json(value);
