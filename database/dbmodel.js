@@ -19,12 +19,10 @@ module.exports.createAccount = async (user, pwd) => {
 };
 
 module.exports.checkUsername = async (user) => {
-  const query = "select count(id) from Account where usr=$1";
+  const query = "select from Account where usr=$1";
   const result = await sql.query(query, [user]);
 
-  console.log(result.rows.count);
-
-  if(result.rows.count === '0')
+  if(result.rows.length < 1)
     return false;
   return true;
 };
