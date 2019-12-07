@@ -374,7 +374,21 @@ function createNewAccount(usr, pwd){
   };
 
   fetch('/api/create', options).then(function(res) {
-    console.log(res);
+    if (response.status !== 200) {
+        console.log('There was a problem. Status Code: ' +
+          response.status);
+        return;
+      }
+
+      response.json().then(function(data) {
+        console.log(data);
+        if(data === "false")
+          console.log("Account created successfully!");
+        else
+          console.log("Account could not be created, user already exists!");
+      });
+  }).catch(function(err) {
+    console.log('Fetch Error: ', err);
   });
 }
 
