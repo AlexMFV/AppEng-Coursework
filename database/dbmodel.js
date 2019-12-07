@@ -10,26 +10,23 @@ sql.on('error', (err) => {
 
 module.exports.createAccount = async (user, pwd) => {
   //Insert into the database, user and hashed password
-  console.log(user);
-  console.log(pwd);
+  const query = "insert into Account values($1, $2)";
+  const result = await sql.query(query, [user, pwd]);
+
+  console.log(result);
+
   console.log("Created User!");
 };
 
 module.exports.checkUsername = async (user) => {
-  //Check if the username exists
   const query = "select count(id) from Account where usr=$1";
   const result = await sql.query(query, [user]);
 
-  console.log(result);
+  console.log(result.rows.count);
 
-  return false;
-  //return result.rows.map((row) => {
-  //  return {
-  //    id: row.id,
-  //  };
-  //});
-
-  console.log("Check User!");
+  if(result.rows.count === '0')
+    return false;
+  //return true;
 };
 
 module.exports.checkAccount = async (user, password) => {
