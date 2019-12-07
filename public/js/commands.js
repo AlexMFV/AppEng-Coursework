@@ -381,8 +381,8 @@ function createNewAccount(usr, pwd){
       }
 
       res.json().then(function(data) {
-        console.log(data);
-        if(data === "false")
+        console.log("Got account: " + data);
+        if(data)
           console.log("Account created successfully!");
         else
           console.log("Account could not be created, user already exists!");
