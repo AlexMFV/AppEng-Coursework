@@ -15,6 +15,3 @@ create table if not exists Acc_File (
   usr_id integer,
   file_id integer
 );
-
---ENCRYPT PASSWORDS WITH SHA256
---USE https://www.npmjs.com/package/js-sha256

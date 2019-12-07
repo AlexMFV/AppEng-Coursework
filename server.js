@@ -38,13 +38,6 @@ async function createAcc(req, res) {
   catch (e){
     error(res, e);
   }
-
-  //try {
-  //  await db.createAccount(req.query.title, req.query.order);
-  //  res.status(200);
-  //} catch (e) {
-  //  error(res, e);
-  //}
 }
 
 function error(res, msg) {

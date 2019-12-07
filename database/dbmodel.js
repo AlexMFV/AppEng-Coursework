@@ -17,10 +17,8 @@ module.exports.createAccount = async (user, pwd) => {
 
 module.exports.checkUsername = async (user) => {
   //Check if the username exists
-  const query = "select count(id) from Account where usr = '" + user + "';";
-
-  // now query the table and output the results
-  const result = await sql.query(query, param);
+  const query = "select count(id) from Account where usr=$1";
+  const result = await sql.query(query, [user]);
 
   console.log(result);
 
