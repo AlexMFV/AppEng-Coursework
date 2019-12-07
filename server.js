@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const db = require('./database/dbmodel.js');
+const sha256 = require('js-sha256');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
@@ -27,7 +28,11 @@ console.log("Server listening on port 8080");
 async function createAcc(req, res) {
   try{
     console.log("Account Create POST request");
-    console.log(req.body);
+    const hashedPwd = sha256(req.body.pwd);
+    if(await db.checkUsername(req.body.usr))
+      await db.createAccount(req.body.usr, hashedPwd);
+    else
+      console.log("Account Already Exists!");
     res.status(200);
   }
   catch (e){
