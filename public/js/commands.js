@@ -374,13 +374,13 @@ function createNewAccount(usr, pwd){
   };
 
   fetch('/api/create', options).then(function(res) {
-    if (response.status !== 200) {
+    if (res.status !== 200) {
         console.log('There was a problem. Status Code: ' +
-          response.status);
+          res.status);
         return;
       }
 
-      response.json().then(function(data) {
+      res.json().then(function(data) {
         console.log(data);
         if(data === "false")
           console.log("Account created successfully!");
