@@ -373,10 +373,9 @@ function createNewAccount(usr, pwd){
     body: JSON.stringify(data)
   };
 
-  if(fetch('/api/create', options))
-    console.log("Account created successfully");
-  else
-    console.log("Account could not be created! User already exists!");
+  fetch('/api/create', options).then(function(res) {
+    console.log(res);
+  });
 }
 
 //function boldText(target){

@@ -29,15 +29,8 @@ async function createAcc(req, res) {
   try{
     const hashedPwd = sha256(req.body.pwd);
     if(!await db.checkUsername(req.body.usr)){
-      await db.createAccount(req.body.usr, hashedPwd);
-      res.status(200);
-      return true;
-    }
-    else{
-      res.status(200);
-      return false;
-    }
-    res.status(200);
+      const value = await db.createAccount(req.body.usr, hashedPwd);
+    res.json(value);
   }
   catch (e){
     error(res, e);
