@@ -189,7 +189,8 @@ function userLoggedIn(){
   setUserState(true);
 
   const loginButton = document.getElementById('loginButton').classList.add('hidden');
-  const filesElem = document.getElementById('fileCbb').classList.remove('hidden');
+  const filesElem = document.getElementById('fileCbb');
+  filesElem.classList.remove('hidden');
   filesElem.addEventListener('change', valueChanged);
   //FillComboBox with values from the database
   for(let i = 0; i < 10; i++){
