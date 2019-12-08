@@ -60,7 +60,7 @@ function redirectIndex(req, res){
 function updateQueryString(req, res){
   console.log("Session Index: " + req.session.userId);
   console.log("User: \""+ req.query.user + "\"");
-  if(req.session.userId && req.query.user !== req.session.userId)
+  if(req.session.userId !== undefined && req.query.user !== req.session.userId)
     res.redirect('/index.html?user=' + req.session.userId);
 }
 
