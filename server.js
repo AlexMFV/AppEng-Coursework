@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const db = require('./database/dbmodel.js');
 const sha256 = require('js-sha256');
+const session = require('express-session');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
@@ -11,11 +12,33 @@ app.engine('.html', require('ejs').__express);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
 
+app.use(session({
+  name: "sId",
+  resave: false,
+  saveUninitialized: false,
+  secret: "@up902282!\"-wio\"",
+  cookie: {
+    maxAge: 1000*60*60*24,
+    sameSite: true,
+    secure: false //Set to true later
+  }
+}));
+
 app.post('/api/create', createAcc);
 app.post('/api/login', loginAcc);
 
 app.get('/', function (req, res) {
-    res.render('index');
+  res.render('index');
+});
+
+app.get('/index', function (req, res) {
+  console.log("GET /index");
+  console.log("With Session: " + req.session.userId);
+});
+
+app.get('/login', function (req, res) {
+  console.log("GET /login");
+  console.log("With Session: " + req.session.userId);
 });
 
 app.listen(8080);
@@ -28,8 +51,10 @@ async function createAcc(req, res) {
     const hashedPwd = sha256(req.body.pwd);
     const exists = await db.checkUsername(req.body.usr);
 
-    if(!exists)
+    if(!exists){
       await db.createAccount(req.body.usr, hashedPwd);
+      req.session.userId = req.body.usr;
+    }
 
     res.json(exists);
   }
@@ -42,6 +67,9 @@ async function loginAcc(req, res){
   try{
     const hashedPwd = sha256(req.body.pwd);
     const exists = await db.checkAccount(req.body.usr, hashedPwd);
+
+    if(exists)
+      req.session.userId = req.body.usr;
 
     res.json(exists);
   }

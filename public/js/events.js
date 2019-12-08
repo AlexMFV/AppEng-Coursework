@@ -27,6 +27,13 @@ const state = {
 //Runds through all the toolbar children, ie. the buttons to modify the text
 //and adds an eventlistener on click, to execute the required command.
 window.onload = () => {
+  const options = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" }
+        };
+
+  fetch('/index', options);
+
   let buttons = document.getElementById('toolbar').children;
 
   for(let i = 0; i < buttons.length; i++){
