@@ -6,12 +6,25 @@
     <script src="/js/commands.js"></script>
     <title>Write It Out</title>
     <script type="text/javascript">
-    const options = {
+          const options = {
             method: "GET",
             headers: { "Content-Type": "application/json" }
           };
 
-    fetch('/login', options);
+          fetch('/login', options).then(function(res) {
+            if (res.status !== 200) {
+              console.log('There was a problem. Status Code: ' +
+              res.status);
+              return;
+            }
+
+            res.json().then(function(session) {
+              if(session !== undefined)
+                window.location.replace("/index.html");
+            });
+          }).catch(function(err) {
+            console.log('Fetch Error: ', err);
+          });
     </script>
   </head>
   <body class="background">

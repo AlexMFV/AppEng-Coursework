@@ -34,11 +34,13 @@ app.get('/', function (req, res) {
 app.get('/index', function (req, res) {
   console.log("GET /index");
   console.log("With Session: " + req.session.userId);
+  res.json(req.session.userId);
 });
 
 app.get('/login', function (req, res) {
   console.log("GET /login");
   console.log("With Session: " + req.session.userId);
+  res.json(req.session.userId);
 });
 
 app.listen(8080);
