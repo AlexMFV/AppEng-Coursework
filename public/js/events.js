@@ -197,7 +197,7 @@ function userLoggedIn(){
     let child = document.createElement('option');
     child.value = i;
     child.innerText = i;
-    filesElem.children.append(child);
+    filesElem.appendChild(child);
   }
   const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');
 }
