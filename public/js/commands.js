@@ -379,18 +379,18 @@ async function createAccount(){
         }
 
         res.json().then(function(exists) {
-          console.log(exists);
-          if(!exists){
+          if(exists){
+            alert("Account created successfully, you will now be redirected!");
+            window.location.href = "./index.html?user=" + usr;
+          }
+          else{
             alert("Account could not be created, user already exists!");
-            return false;
           }
         });
       }).catch(function(err) {
         console.log('Fetch Error: ', err);
       });
 
-      alert("Account created successfully, you will now be redirected!");
-      window.location.href = "./index.html?user=" + usr;
       return false;
     }
     else
@@ -422,18 +422,18 @@ async function loginAccount(){
     }
 
     res.json().then(function(exists) {
-      console.log(exists);
-      if(!exists){
+      if(exists){
+        alert("Login Successful, redirecting...");
+        window.location.href = "./index.html?user=" + usr;
+      }
+      else{
         alert("Incorrect details, please try again!");
-        return false;
       }
     });
   }).catch(function(err) {
     console.log('Fetch Error: ', err);
   });
 
-  alert("Login Successful, redirecting...");
-  window.location.href = "./index.html?user=" + usr;
   return false;
 }
 
