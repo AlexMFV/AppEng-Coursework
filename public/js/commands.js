@@ -379,7 +379,7 @@ async function createAccount(){
         }
 
         res.json().then(function(exists) {
-          if(exists){
+          if(!exists){
             alert("Account created successfully, you will now be redirected!");
             window.location.href = "./index.html?user=" + usr;
           }

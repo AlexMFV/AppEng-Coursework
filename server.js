@@ -15,7 +15,7 @@ app.set('view engine', 'html');
 //app.post('/api/pictures', uploader.single('picfile'), uploadPicture);
 //app.delete('/api/pictures/:id', deletePicture);
 app.post('/api/create', createAcc);
-app.get('/api/login', loginAcc);
+app.post('/api/login', loginAcc);
 
 app.get('/', function (req, res) {
     res.render('index');
@@ -45,7 +45,7 @@ async function loginAcc(req, res){
   try{
     const hashedPwd = sha256(req.body.pwd);
     const exists = await db.checkAccount(req.body.usr, hashedPwd);
-    
+
     res.json(exists);
   }
   catch(e){
