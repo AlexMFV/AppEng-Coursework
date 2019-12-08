@@ -29,25 +29,10 @@ app.use(session({
   }
 }));
 
-const redirectIndex = (req, res, next) => {
-  console.log("Session Login: " + req.session.userId);
-  if(!req.session.userId)
-    res.redirect('/login');
-  else
-    next();
-}
-
-const updateQueryString = (req, res, next) => {
-  console.log("Session Index: " + req.session.userId);
-  console.log("User: \""+ req.query.user + "\"");
-  if(req.session.userId && req.query.user !== req.session.userId)
-    res.redirect('/index?usr=' + req.session.userId);
-}
-
 //app.get('/api/pictures', sendPictures);
 //app.post('/api/pictures', uploader.single('picfile'), uploadPicture);
 //app.delete('/api/pictures/:id', deletePicture);
-app.get('/login', redirectIndex);
+app.post('/login', redirectIndex);
 app.get('/', updateQueryString);
 app.get('/index', updateQueryString);
 
@@ -64,6 +49,21 @@ console.log("Server listening on port 8080");
 
 /* SERVER FUNCTIONS */
 
+async function redirectIndex(req, res){
+  console.log("Session Login: " + req.session.userId);
+  if(req.session.userId !== undefined)
+    res.redirect('/index');
+  else
+    next();
+}
+
+async function updateQueryString(req, res){
+  console.log("Session Index: " + req.session.userId);
+  console.log("User: \""+ req.query.user + "\"");
+  if(req.session.userId && req.query.user !== req.session.userId)
+    res.redirect('/index?usr=' + req.session.userId);
+}
+
 async function createAcc(req, res) {
   try{
     const hashedPwd = sha256(req.body.pwd);
@@ -73,7 +73,7 @@ async function createAcc(req, res) {
       await db.createAccount(req.body.usr, hashedPwd);
 
     req.session.userId = req.body.usr;
-    console.log("Login Success: " + req.session.userId);
+    console.log("Account Created: " + req.session.userId);
     res.json(exists);
   }
   catch (e){
@@ -87,7 +87,7 @@ async function loginAcc(req, res){
     const exists = await db.checkAccount(req.body.usr, hashedPwd);
 
     req.session.userId = req.body.usr;
-    console.log("Account Created: " + req.session.userId);
+    console.log("Login Success: " + req.session.userId);
     res.json(exists);
   }
   catch(e){

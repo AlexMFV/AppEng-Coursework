@@ -5,6 +5,20 @@
     <link href="/css/main.css" rel="stylesheet" type="text/css"/>
     <script src="/js/commands.js"></script>
     <title>Write It Out</title>
+    <script type="text/javascript">
+      window.onload = () => {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+        };
+
+        console.log("Fetching Login");
+
+        fetch('/login', options);
+      };
+    </script>
   </head>
   <body class="background">
     <aside class="mainForm">
