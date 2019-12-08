@@ -45,7 +45,7 @@ async function loginAcc(req, res){
   try{
     const hashedPwd = sha256(req.body.pwd);
     const exists = await db.checkAccount(req.body.usr, hashedPwd);
-
+    
     res.json(exists);
   }
   catch(e){

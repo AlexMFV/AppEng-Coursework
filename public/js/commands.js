@@ -378,8 +378,9 @@ async function createAccount(){
           return;
         }
 
-        res.json().then(function(data) {
-          if(data == "false"){
+        res.json().then(function(exists) {
+          console.log(exists);
+          if(!exists){
             alert("Account could not be created, user already exists!");
             return false;
           }
@@ -421,7 +422,8 @@ async function loginAccount(){
     }
 
     res.json().then(function(exists) {
-      if(exists == "false"){
+      console.log(exists);
+      if(!exists){
         alert("Incorrect details, please try again!");
         return false;
       }
