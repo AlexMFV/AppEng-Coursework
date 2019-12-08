@@ -227,7 +227,6 @@ function textualPoint(e){
           parent = window.editor.childNodes[i].parentElement;
         else
           parent = window.editor.childNodes[i];
-        console.log(parent);
         applyTextualPoint(parent, index)
       }
     }
@@ -439,8 +438,6 @@ async function loginAccount(){
 
 //TODO:
 
-//When the user is logged in Hide the Login button and show the Log out button on Index.html.
-//If the URL has a queryString but the user has no session or cookie change remove the queryString since the user is a guest.
 //If the user has a session then load All the file names TO A COMBOBOX according to that User (GetUserID then GetAllFilesFromUserID).
 //When the user changes the file in the combobox load that file from the database.
 //Add the ability for the user to Delete a file permanently (From the database ofc).
