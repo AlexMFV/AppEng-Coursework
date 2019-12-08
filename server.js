@@ -48,6 +48,9 @@ async function loginAcc(req, res){
 
     res.json(exists);
   }
+  catch(e){
+    error(res, e)
+  }
 }
 
 function error(res, msg) {
