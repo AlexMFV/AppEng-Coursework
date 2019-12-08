@@ -14,7 +14,7 @@ module.exports.createAccount = async (user, pwd) => {
 };
 
 module.exports.checkUsername = async (user) => {
-  const query = "select from Account where usr=$1";
+  const query = "select * from Account where usr=$1";
   const result = await sql.query(query, [user]);
 
   if(result.rows.length < 1)
@@ -22,9 +22,13 @@ module.exports.checkUsername = async (user) => {
   return true;
 };
 
-module.exports.checkAccount = async (user, password) => {
-  //If the username exists check if the hash password corresponds to the one on the database
-  console.log("Check Account!");
+module.exports.checkAccount = async (user, pwd) => {
+  const query = "select * from Account where usr=$1 and pwd=$2";
+  const result = await sql.query(query, [user, pwd]);
+
+  if(result.rows.length < 1)
+    return false;
+  return true;
 };
 
 module.exports.getFiles = async (userId) => {

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link href="/css/main.css" rel="stylesheet" type="text/css"/>
+    <script src="/js/commands.js"></script>
+    <title>Write It Out</title>
+  </head>
+  <body class="background">
+    <aside class="mainForm">
+      <div class="loginForm">
+        <h2>Login</h2>
+        <p>Login into your account...</p>
+        <div class="">
+          <section>Enter username</section>
+          <input id="lUser" type="text" placeholder="Username" maxlength="30"></input>
+        </div>
+        <div class="">
+          <section>Enter password</section>
+          <input id="lPwd" type="password" placeholder="Password" maxlength="35"></input>
+        </div>
+
+        <button id="login" type="submit" value="Login" name="button">Login</button>
+      </div>
+      <div class="registerForm">
+        <h2>Register</h2>
+        <p>...or create one if you haven't done so!</p>
+        <div class="">
+          <section>Enter username</section>
+          <input id="cUser" type="text" placeholder="Username" maxlength="30"></input>
+        </div>
+        <div class="">
+          <section>Enter password</section>
+          <input id="cPwd" type="password" placeholder="Password" maxlength="35"></input>
+        </div>
+        <div class="">
+          <section>Enter password again</section>
+          <input id="cCheckPwd" type="password" placeholder="Confirm Password" maxlength="35"></input>
+        </div>
+        <button id="register" type="submit" value="Login" name="button">Register</button>
+      </div>
+    </aside>
+    <script type="text/javascript">
+      window.login.addEventListener('click', loginAccount);
+      window.register.addEventListener('click', createAccount);
+    </script>
+  </body>
+</html>

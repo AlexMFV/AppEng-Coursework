@@ -75,14 +75,6 @@ function insertLine(){
 
     index = getIndex(window.editor.children, elem);
   }
-  //else{
-  //  const elem2 = elem.cloneNode(true);
-  //  elem.appendChild(new SelectButton());
-  //  elem2.appendChild(new SelectButton());
-  //  window.editor.appendChild(elem);
-  //  window.editor.appendChild(elem2);
-  //  index = getIndex(window.editor.children, elem2);
-  //}
 
   if(index != null)
     setCaretPosition(index, 1);
@@ -360,9 +352,57 @@ function clearLocalFile(){
 
 //SERVER/DATABASE METHODS
 
-function createNewAccount(usr, pwd){
+function createAccount(){
+  const user = document.getElementById('cUser');
+  const pass = document.getElementById('cPwd');
+  const repass = document.getElementById('cCheckPwd');
 
-  //CHANGE THIS TO GET DATA AUTIMATICALLY FROM THE FORM
+  if(user.value !== ""){
+    if(pass.value === repass.value && pass.value !== ""){
+      const usr = user.value;
+      const pwd = pass.value;
+
+      const data = { usr, pwd };
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      };
+
+      fetch('/api/create', options).then(function(res) {
+        if (res.status !== 200) {
+          console.log('There was a problem. Status Code: ' +
+          res.status);
+          return;
+        }
+
+        res.json().then(function(data) {
+          if(!data){
+            alert("Account could not be created, user already exists!");
+            return false;
+          }
+        });
+      }).catch(function(err) {
+        console.log('Fetch Error: ', err);
+      });
+
+      alert("Account created successfully, you will now be redirected!");
+      window.location.href = "./index.html?user=" + usr;
+      return false;
+    }
+    else
+    alert("Passwords need to be valid and be the same!");
+  }
+  else {
+    alert("User is invalid!");
+  }
+}
+
+function loginAccount(){
+  const usr = document.getElementById('lUser').value;
+  const pwd = document.getElementById('lPwd').value;
 
   const data = { usr, pwd };
   const options = {
@@ -373,24 +413,41 @@ function createNewAccount(usr, pwd){
     body: JSON.stringify(data)
   };
 
-  fetch('/api/create', options).then(function(res) {
+  fetch('/api/login', options).then(function(res) {
     if (res.status !== 200) {
-        console.log('There was a problem. Status Code: ' +
-          res.status);
-        return;
-      }
+      console.log('There was a problem. Status Code: ' +
+      res.status);
+      return;
+    }
 
-      res.json().then(function(data) {
-        console.log("Got account: " + data);
-        if(data)
-          console.log("Account created successfully!");
-        else
-          console.log("Account could not be created, user already exists!");
-      });
+    res.json().then(function(exists) {
+      if(!exists){
+        alert("Incorrect details, please try again!");
+        return false;
+      }
+    });
   }).catch(function(err) {
     console.log('Fetch Error: ', err);
   });
+
+  alert("Login Successful, redirecting...");
+  window.location.href = "./index.html?user=" + usr;
+  return false;
 }
+
+//TODO:
+
+//When the user logins or registers, add the user to a session (temporary).
+//Add a checkbox for RememberMe (which changes the time ^^^ to permanently until the user logs out).
+//When the user is logged in Hide the Login button and show the Log out button on Index.html.
+//When a user enters the page, check if it has a session/cookie, if yes update the queryString to the username on the session
+//if not, then don't add any queryString (if it has nothing then it's a guest).
+//If the URL has a queryString but the user has no session or cookie change remove the queryString since the user is a guest.
+//If the user has a session then load All the file names TO A COMBOBOX according to that User (GetUserID then GetAllFilesFromUserID).
+//When the user changes the file in the combobox load that file from the database.
+//Add the ability for the user to Delete a file permanently (From the database ofc).
+
+//-------------------------------------------------
 
 //function boldText(target){
 //  const editor = document.getElementById("editor");

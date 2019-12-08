@@ -160,3 +160,38 @@ body, html{
 #deleteDoc{
 
 }
+
+.mainForm{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.loginForm{
+  outline-style: dotted;
+  background: #fff;
+  margin-left: 20px;
+  width: 20em;
+  height: 15em;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+.loginForm > button, div{
+  margin-top: 10px;
+}
+
+.registerForm > button, div{
+  margin-top: 10px;
+}
+
+.registerForm{
+  outline-style: dotted;
+  background: #fff;
+  margin: 20px;
+  width: 20em;
+  height: 18em;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
