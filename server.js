@@ -33,8 +33,8 @@ app.use(session({
 //app.post('/api/pictures', uploader.single('picfile'), uploadPicture);
 //app.delete('/api/pictures/:id', deletePicture);
 app.post('/login', redirectIndex);
-app.get('/', updateQueryString);
-app.get('/index', updateQueryString);
+app.post('/', updateQueryString);
+app.post('/index', updateQueryString);
 
 app.post('/api/create', createAcc);
 app.post('/api/login', loginAcc);

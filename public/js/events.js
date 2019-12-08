@@ -28,7 +28,7 @@ const state = {
 //and adds an eventlistener on click, to execute the required command.
 window.onload = () => {
   const options = {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
