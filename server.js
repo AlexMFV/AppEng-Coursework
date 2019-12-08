@@ -40,7 +40,7 @@ const redirectIndex = (req, res, next) => {
 const updateQueryString = (req, res, next) => {
   console.log("Session Index: " + req.session.userId);
   console.log("User: \""+ req.query.user + "\"");
-  if(req.session.userId && req.query.usr !== req.session.userId)
+  if(req.session.userId && req.query.user !== req.session.userId)
     res.redirect('/index?usr=' + req.session.userId);
 }
 
@@ -73,6 +73,7 @@ async function createAcc(req, res) {
       await db.createAccount(req.body.usr, hashedPwd);
 
     req.session.userId = req.body.usr;
+    console.log("Login Success: " + req.session.userId);
     res.json(exists);
   }
   catch (e){
@@ -86,6 +87,7 @@ async function loginAcc(req, res){
     const exists = await db.checkAccount(req.body.usr, hashedPwd);
 
     req.session.userId = req.body.usr;
+    console.log("Account Created: " + req.session.userId);
     res.json(exists);
   }
   catch(e){
