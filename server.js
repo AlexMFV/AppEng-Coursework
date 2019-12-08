@@ -61,7 +61,7 @@ async function updateQueryString(req, res){
   console.log("Session Index: " + req.session.userId);
   console.log("User: \""+ req.query.user + "\"");
   if(req.session.userId && req.query.user !== req.session.userId)
-    res.redirect('/index?usr=' + req.session.userId);
+    res.redirect('/index?user=' + req.session.userId);
 }
 
 async function createAcc(req, res) {
