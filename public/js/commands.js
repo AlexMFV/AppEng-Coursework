@@ -352,7 +352,7 @@ function clearLocalFile(){
 
 //SERVER/DATABASE METHODS
 
-function createAccount(){
+async function createAccount(){
   const user = document.getElementById('cUser');
   const pass = document.getElementById('cPwd');
   const repass = document.getElementById('cCheckPwd');
@@ -371,7 +371,7 @@ function createAccount(){
         body: JSON.stringify(data)
       };
 
-      fetch('/api/create', options).then(function(res) {
+      await fetch('/api/create', options).then(function(res) {
         if (res.status !== 200) {
           console.log('There was a problem. Status Code: ' +
           res.status);
@@ -379,7 +379,7 @@ function createAccount(){
         }
 
         res.json().then(function(data) {
-          if(!data){
+          if(data == "false"){
             alert("Account could not be created, user already exists!");
             return false;
           }
@@ -400,7 +400,7 @@ function createAccount(){
   }
 }
 
-function loginAccount(){
+async function loginAccount(){
   const usr = document.getElementById('lUser').value;
   const pwd = document.getElementById('lPwd').value;
 
@@ -413,7 +413,7 @@ function loginAccount(){
     body: JSON.stringify(data)
   };
 
-  fetch('/api/login', options).then(function(res) {
+  await fetch('/api/login', options).then(function(res) {
     if (res.status !== 200) {
       console.log('There was a problem. Status Code: ' +
       res.status);
@@ -421,7 +421,7 @@ function loginAccount(){
     }
 
     res.json().then(function(exists) {
-      if(!exists){
+      if(exists == "false"){
         alert("Incorrect details, please try again!");
         return false;
       }
