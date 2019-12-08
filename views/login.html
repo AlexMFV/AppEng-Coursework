@@ -20,7 +20,7 @@
 
             res.json().then(function(session) {
               if(session !== undefined)
-                window.location.replace("/index.html");
+                window.location.replace("/index.html"); //Maybe change to fetch?
             });
           }).catch(function(err) {
             console.log('Fetch Error: ', err);

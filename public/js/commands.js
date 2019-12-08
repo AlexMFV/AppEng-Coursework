@@ -439,11 +439,7 @@ async function loginAccount(){
 
 //TODO:
 
-//When the user logins or registers, add the user to a session (temporary).
-//Add a checkbox for RememberMe (which changes the time ^^^ to permanently until the user logs out).
 //When the user is logged in Hide the Login button and show the Log out button on Index.html.
-//When a user enters the page, check if it has a session/cookie, if yes update the queryString to the username on the session
-//if not, then don't add any queryString (if it has nothing then it's a guest).
 //If the URL has a queryString but the user has no session or cookie change remove the queryString since the user is a guest.
 //If the user has a session then load All the file names TO A COMBOBOX according to that User (GetUserID then GetAllFilesFromUserID).
 //When the user changes the file in the combobox load that file from the database.

@@ -38,8 +38,6 @@ app.get('/index', function (req, res) {
 });
 
 app.get('/login', function (req, res) {
-  console.log("GET /login");
-  console.log("With Session: " + req.session.userId);
   res.json(JSON.stringify(req.session.userId));
 });
 
