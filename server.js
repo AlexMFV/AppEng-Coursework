@@ -49,7 +49,7 @@ console.log("Server listening on port 8080");
 
 /* SERVER FUNCTIONS */
 
-async function redirectIndex(req, res){
+function redirectIndex(req, res){
   console.log("Session Login: " + req.session.userId);
   if(req.session.userId !== undefined)
     res.redirect('/index');
@@ -57,11 +57,11 @@ async function redirectIndex(req, res){
     next();
 }
 
-async function updateQueryString(req, res){
+function updateQueryString(req, res){
   console.log("Session Index: " + req.session.userId);
   console.log("User: \""+ req.query.user + "\"");
   if(req.session.userId && req.query.user !== req.session.userId)
-    res.redirect('/index?user=' + req.session.userId);
+    res.redirect('/index.html?user=' + req.session.userId);
 }
 
 async function createAcc(req, res) {
