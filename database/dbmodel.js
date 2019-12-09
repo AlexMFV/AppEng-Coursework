@@ -32,10 +32,18 @@ module.exports.checkAccount = async (user, pwd) => {
 };
 
 module.exports.getFiles = async (userId) => {
-  //Get all the files associated with the current UserId
-  const query = "select * from File inner join Acc_File on Acc_File";
+  const query = "select File.id, File.file_name, File.contents, File.last_update from File inner join Acc_File on File.id = Acc_file.file_id where Acc_File.usr_id = $1;";
+  const result = await sql.query(query, [userId]);
 
-  console.log("Got Files!");
+  //If 0 rows then there are no files
+  return result.rows.map((row) => {
+    return {
+      id: row.id,
+      file_name: row.file_name,
+      contents: row.contents,
+      last_update: row.last_update
+    };
+  });
 };
 
 module.exports.deleteFile = async (fileId) => {

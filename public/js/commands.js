@@ -444,9 +444,9 @@ async function getUserFiles(user_name){
     body: JSON.stringify(data);
   };
 
-  await fetch('/user/id', options).then(function(res) {
+  await fetch('/files/user', options).then(function(res) {
     res.json().then(function(files) {
-      //Process Files
+      console.log(files);
     });
   }).catch(function(err) {
     console.log('Fetch Error: ', err);

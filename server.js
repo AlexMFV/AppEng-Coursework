@@ -27,7 +27,6 @@ app.use(session({
 app.post('/api/create', createAcc);
 app.post('/api/login', loginAcc);
 app.get('/files/user', getFilesByUserId)
-app.get('/user/id', getUserId);
 
 app.get('/', function (req, res) {
   res.render('index');

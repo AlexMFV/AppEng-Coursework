@@ -7,7 +7,7 @@ insert into File(file_name, contents, last_update) values('preset2', 'def', now(
 insert into File(file_name, contents, last_update) values('preset3', 'hij', now());
 insert into File(file_name, contents, last_update) values('preset4', 'klm', now());
 
-insert into Acc_File(usr_id, file_id) values(1, 1);
-insert into Acc_File(usr_id, file_id) values(2, 2)
-insert into Acc_File(usr_id, file_id) values(3, 3);
+insert into Acc_File(usr_id, file_id) values(3, 1);
+insert into Acc_File(usr_id, file_id) values(1, 2);
+insert into Acc_File(usr_id, file_id) values(2, 3);
 insert into Acc_File(usr_id, file_id) values(1, 4);
