@@ -441,7 +441,7 @@ async function getUserFiles(user_name){
   const options = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data);
+    body: JSON.stringify(data)
   };
 
   await fetch('/files/user', options).then(function(res) {
