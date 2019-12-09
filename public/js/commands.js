@@ -380,7 +380,7 @@ async function createAccount(){
         res.json().then(function(exists) {
           if(!exists){
             alert("Account created successfully, you will now be redirected!");
-            window.location.href = "./index.html?user=" + usr;
+            window.location.href = "./index.html"; //?user=" + usr;
           }
           else{
             alert("Account could not be created, user already exists!");
@@ -423,7 +423,7 @@ async function loginAccount(){
     res.json().then(function(exists) {
       if(exists){
         alert("Login Successful, redirecting...");
-        window.location.href = "./index.html?user=" + usr;
+        window.location.href = "./index.html"; //?user=" + usr;
       }
       else{
         alert("Incorrect details, please try again!");
@@ -436,12 +436,10 @@ async function loginAccount(){
   return false;
 }
 
-async function getUserFiles(user_name){
-  const data = user_name;
+async function getUserFiles(){
   const options = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
   };
 
   await fetch('/files/user', options).then(function(res) {
