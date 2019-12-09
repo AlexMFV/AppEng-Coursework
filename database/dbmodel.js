@@ -33,6 +33,8 @@ module.exports.checkAccount = async (user, pwd) => {
 
 module.exports.getFiles = async (userId) => {
   //Get all the files associated with the current UserId
+  const query = "select * from File inner join Acc_File on Acc_File";
+
   console.log("Got Files!");
 };
 

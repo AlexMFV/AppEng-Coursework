@@ -26,6 +26,8 @@ app.use(session({
 
 app.post('/api/create', createAcc);
 app.post('/api/login', loginAcc);
+app.get('/files/user', getFilesByUserId)
+app.get('/user/id', getUserId);
 
 app.get('/', function (req, res) {
   res.render('index');
@@ -75,6 +77,28 @@ async function loginAcc(req, res){
   }
   catch(e){
     error(res, e)
+  }
+}
+
+async function getFilesByUserId(req, res){
+  try{
+    const files = {};
+    files = await db.getFiles(getUserId(req, res));
+
+    res.json(JSON.stringify(files));
+  }
+  catch(e){
+    error(res, e);
+  }
+}
+
+async function getUserId(req, res){
+  try{
+    const uId = await db.getUserId(req.body);
+    return uId;
+  }
+  catch(e){
+    error(res, e);
   }
 }
 

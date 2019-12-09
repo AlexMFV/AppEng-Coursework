@@ -436,6 +436,23 @@ async function loginAccount(){
   return false;
 }
 
+async function getUserFiles(user_name){
+  const data = user_name;
+  const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data);
+  };
+
+  await fetch('/user/id', options).then(function(res) {
+    res.json().then(function(files) {
+      //Process Files
+    });
+  }).catch(function(err) {
+    console.log('Fetch Error: ', err);
+  });
+}
+
 //TODO:
 
 //If the user has a session then load All the file names TO A COMBOBOX according to that User (GetUserID then GetAllFilesFromUserID).
