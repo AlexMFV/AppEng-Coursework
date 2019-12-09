@@ -46,6 +46,16 @@ module.exports.getFiles = async (userId) => {
   });
 };
 
+module.exports.getUserId = async (user_name) => {
+  const query = "select id from Account where usr=$1";
+  const result = await sql.query(query, [user_name]);
+
+  if(result.rows.length < 1)
+    return -1;
+  else
+    return result.rows[0].id;
+};
+
 module.exports.deleteFile = async (fileId) => {
   //Delete the file with the current fileId
   console.log("Deleted File!");
