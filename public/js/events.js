@@ -27,22 +27,16 @@ const state = {
 //Runds through all the toolbar children, ie. the buttons to modify the text
 //and adds an eventlistener on click, to execute the required command.
 window.onload = () => {
-  setUserState(false);
-  const options = {
-          method: "GET",
-          headers: { "Content-Type": "application/json" }
-        };
+  AsyncLoad();
+};
 
-  fetch('/index', options).then(function(res) {
-    res.json().then(function(session) {
-      if(session !== undefined){
-          const files = getUserFiles();
-          userLoggedIn(files);
-      }
-    });
-  }).catch(function(err) {
-    console.log('Fetch Error: ', err);
-  });
+async function AsyncLoad(){
+  setUserState(false);
+
+  if(await isUserLoggedIn()){
+    const files = await getUserFiles();
+    processUserLogin(files);
+  }
 
   let buttons = document.getElementById('toolbar').children;
 
@@ -66,7 +60,7 @@ window.onload = () => {
       }
     }
   }
-};
+}
 
 window.editor.onkeydown = (e) => {
   let toReturn;
@@ -181,7 +175,7 @@ function setSaved(){
   window.saveState.innerText = "Saved";
 }
 
-function userLoggedIn(files){
+function processUserLogin(files){
   setUserState(true);
   console.log("Session:", files); // DEBUG: Check
 
