@@ -76,10 +76,16 @@ async function loginAcc(req, res){
 }
 
 async function checkUserLogin(req, res){
-  if(req.session.userId)
-    res.json(true);
-  else
-    res.json(false);
+  try{
+    console.log("Requested");
+    const value = req.session.userId !== undefined ? true : false;
+
+    console.log("Got value: ", value);
+    res.json(value);
+  }
+  catch(e){
+    error(res, e)
+  }
 }
 
 async function getFilesByUserId(req, res){
