@@ -438,11 +438,17 @@ async function loginAccount(){
 
 async function getUserFiles(){
   const options = {
-    method: "POST",
+    method: "GET",
     headers: { "Content-Type": "application/json" }
   };
 
-  await fetch('/files/user', options).then(function(res) {
+  await fetch('/api/userfiles', options).then(function(res) {
+    if (res.status !== 200) {
+      console.log('There was a problem. Status Code: ' +
+      res.status);
+      return;
+    }
+
     res.json().then(function(files) {
       console.log(files);
     });

@@ -26,7 +26,7 @@ app.use(session({
 
 app.post('/api/create', createAcc);
 app.post('/api/login', loginAcc);
-app.post('/files/user', getFilesByUserId)
+app.get('/api/userfiles', getFilesByUserId)
 
 app.get('/', function (req, res) {
   res.render('index');
@@ -79,10 +79,9 @@ async function loginAcc(req, res){
 
 async function getFilesByUserId(req, res){
   try{
-    const files = {};
-    const uId = getUserId(req, res);
+    const uId = await getUserId(req, res);
     console.log("Files UID:", uId); // DEBUG: Check
-    files = await db.getFiles(uId);
+    const files = await db.getFiles(uId);
     console.log("Files:", files); // DEBUG: Check
     res.json(JSON.stringify(files));
   }
