@@ -175,13 +175,13 @@ function setSaved(){
   window.saveState.innerText = "Saved";
 }
 
-async function isUserLoggedIn(){
+function isUserLoggedIn(){
   const options = {
           method: "GET",
           headers: { "Content-Type": "application/json" }
         };
-        
-  await fetch('/index', options).then(function(res) {
+
+   fetch('/index', options).then(function(res) {
     res.json().then(function(session) {
       if(session !== undefined)
         return true;
