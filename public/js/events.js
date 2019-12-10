@@ -28,27 +28,12 @@ const state = {
 //and adds an eventlistener on click, to execute the required command.
 window.onload = () => {
   setUserState(false);
-  const options = {
-          method: "GET",
-          headers: { "Content-Type": "application/json" }
-        };
 
-  fetch('/index', options).then(function(res) {
-    if (res.status !== 200) {
-      console.log('There was a problem. Status Code: ' +
-      res.status);
-      return;
-    }
-
-    res.json().then(function(session) {
-      if(session !== undefined){
-          const files = getUserFiles();
-          userLoggedIn(files);
-      }
-    });
-  }).catch(function(err) {
-    console.log('Fetch Error: ', err);
-  });
+  if(isUserLoggedIn())
+  {
+    getUserFiles();
+    userLoggedIn();
+  }
 
   let buttons = document.getElementById('toolbar').children;
 
@@ -216,4 +201,23 @@ function setUserState(bool){
 
 function getUserState(){
   return localStorage.getItem("userLogged");
+}
+
+async function isUserLoggedIn(){
+  const options = {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        };
+
+  await fetch('/index', options).then(function(res) {
+
+    res.json().then(function(session) {
+      if(session !== undefined)
+          return true;
+      else
+        return false;
+    });
+  }).catch(function(err) {
+    console.log('Fetch Error: ', err);
+  });
 }
