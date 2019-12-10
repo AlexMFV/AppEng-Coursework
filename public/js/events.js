@@ -175,6 +175,19 @@ function setSaved(){
   window.saveState.innerText = "Saved";
 }
 
+async function isUserLoggedIn(){
+  await fetch('/index', options).then(function(res) {
+    res.json().then(function(session) {
+      if(session !== undefined)
+        return true;
+      else
+        return false;
+    });
+  }).catch(function(err) {
+    console.log('Fetch Error: ', err);
+  });
+}
+
 function processUserLogin(files){
   setUserState(true);
   console.log("Session:", files); // DEBUG: Check
