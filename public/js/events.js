@@ -28,8 +28,21 @@ const state = {
 //and adds an eventlistener on click, to execute the required command.
 window.onload = () => {
   setUserState(false);
+  const options = {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        };
 
-  userLoggedIn();
+  fetch('/index', options).then(function(res) {
+    res.json().then(function(session) {
+      if(session !== undefined){
+          const files = getUserFiles();
+          userLoggedIn(files);
+      }
+    });
+  }).catch(function(err) {
+    console.log('Fetch Error: ', err);
+  });
 
   let buttons = document.getElementById('toolbar').children;
 
@@ -168,27 +181,22 @@ function setSaved(){
   window.saveState.innerText = "Saved";
 }
 
-async function userLoggedIn(){
-  const isLoggedIn = await isUserLoggedIn();
+function userLoggedIn(files){
+  setUserState(true);
+  console.log("Session:", files); // DEBUG: Check
 
-  if(isLoggedIn){
-    setUserState(true);
-    const files = await getUserData();
-    console.log("Session:", files); // DEBUG: Check
-
-    const loginButton = document.getElementById('loginButton').classList.add('hidden');
-    const filesElem = document.getElementById('fileCbb');
-    filesElem.classList.remove('hidden');
-    filesElem.addEventListener('change', valueChanged);
-    //FillComboBox with values from the database
-    for(let i = 0; i < files.length; i++){
-      let child = document.createElement('option');
-      child.value = files[i].id;
-      child.innerText = files[i].file_name;
-      filesElem.appendChild(child);
-    }
-    const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');
+  const loginButton = document.getElementById('loginButton').classList.add('hidden');
+  const filesElem = document.getElementById('fileCbb');
+  filesElem.classList.remove('hidden');
+  filesElem.addEventListener('change', valueChanged);
+  //FillComboBox with values from the database
+  for(let i = 0; i < files.length; i++){
+    let child = document.createElement('option');
+    child.value = files[i].id;
+    child.innerText = files[i].file_name;
+    filesElem.appendChild(child);
   }
+  const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');
 }
 
 function valueChanged(e){
@@ -201,23 +209,4 @@ function setUserState(bool){
 
 function getUserState(){
   return localStorage.getItem("userLogged");
-}
-
-function isUserLoggedIn(){
-  const options = {
-          method: "GET",
-          headers: { "Content-Type": "application/json" }
-        };
-
-  fetch('/index', options).then(function(res) {
-
-    res.json().then(function(session) {
-      if(session !== undefined)
-          return true;
-      else
-        return false;
-    });
-  }).catch(function(err) {
-    console.log('Fetch Error: ', err);
-  });
 }
