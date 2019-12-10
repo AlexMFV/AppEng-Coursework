@@ -29,7 +29,7 @@ const state = {
 window.onload = () => {
   setUserState(false);
 
-  if(isUserLoggedIn())
+  if(await isUserLoggedIn())
   {
     getUserFiles();
     userLoggedIn();
