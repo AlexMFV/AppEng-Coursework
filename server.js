@@ -32,10 +32,7 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
-app.get('/index', function (req, res) {
-  console.log("Requested");
-  res.json(JSON.stringify(req.session.userId));
-});
+app.get('/index', checkUserLogin);
 
 app.get('/login', function (req, res) {
   res.json(JSON.stringify(req.session.userId));
@@ -76,6 +73,13 @@ async function loginAcc(req, res){
   catch(e){
     error(res, e)
   }
+}
+
+async function checkUserLogin(req, res){
+  if(req.session.userId)
+    res.json(true);
+  else
+    res.json(false);
 }
 
 async function getFilesByUserId(req, res){

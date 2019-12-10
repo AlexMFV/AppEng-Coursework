@@ -33,7 +33,7 @@ window.onload = () => {
 async function AsyncLoad(){
   setUserState(false);
   const isLoggedIn = await isUserLoggedIn();
-  
+
   if(isLoggedIn){
     const files = await getUserFiles();
     processUserLogin(files);
@@ -183,8 +183,8 @@ function isUserLoggedIn(){
         };
 
    fetch('/index', options).then(function(res) {
-    res.json().then(function(session) {
-      if(session !== undefined)
+    res.json().then(function(loggedIn) {
+      if(loggedIn)
         return true;
       else
         return false;
