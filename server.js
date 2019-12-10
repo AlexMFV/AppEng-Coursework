@@ -33,6 +33,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/index', function (req, res) {
+  console.log("Requested");
   res.json(JSON.stringify(req.session.userId));
 });
 
