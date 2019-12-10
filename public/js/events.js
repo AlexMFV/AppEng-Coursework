@@ -41,8 +41,10 @@ window.onload = () => {
     }
 
     res.json().then(function(session) {
-      if(session !== undefined)
-        userLoggedIn();
+      if(session !== undefined){
+          const files = getUserFiles();
+          userLoggedIn(files);
+      }
     });
   }).catch(function(err) {
     console.log('Fetch Error: ', err);
@@ -187,16 +189,18 @@ function setSaved(){
 
 function userLoggedIn(){
   setUserState(true);
+  const files = req.session.userData;
+  console.log("Session:", files); // DEBUG: Check
 
   const loginButton = document.getElementById('loginButton').classList.add('hidden');
   const filesElem = document.getElementById('fileCbb');
   filesElem.classList.remove('hidden');
   filesElem.addEventListener('change', valueChanged);
   //FillComboBox with values from the database
-  for(let i = 0; i < 10; i++){
+  for(let i = 0; i < files.length; i++){
     let child = document.createElement('option');
-    child.value = i;
-    child.innerText = i;
+    child.value = files[i].id;
+    child.innerText = files[i].file_name;
     filesElem.appendChild(child);
   }
   const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');

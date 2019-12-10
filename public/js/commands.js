@@ -443,18 +443,14 @@ async function getUserFiles(){
   };
 
   await fetch('/api/userfiles', options).then(function(res) {
-    if (res.status !== 200) {
-      console.log('There was a problem. Status Code: ' +
-      res.status);
-      return;
-    }
-
     res.json().then(function(files) {
-      console.log(files);
+      return files;
     });
   }).catch(function(err) {
     console.log('Fetch Error: ', err);
   });
+
+  return null;
 }
 
 //TODO:

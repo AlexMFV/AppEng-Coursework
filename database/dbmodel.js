@@ -35,6 +35,9 @@ module.exports.getFiles = async (userId) => {
   const query = "select File.id, File.file_name, File.contents, File.last_update from File inner join Acc_File on File.id = Acc_file.file_id where Acc_File.usr_id = $1;";
   const result = await sql.query(query, [userId]);
 
+  if(result.rows.length < 1)
+    return null;
+
   //If 0 rows then there are no files
   return result.rows.map((row) => {
     return {

@@ -83,7 +83,17 @@ async function getFilesByUserId(req, res){
     console.log("Files UID:", uId); // DEBUG: Check
     const files = await db.getFiles(uId);
     console.log("Files:", files); // DEBUG: Check
-    res.json(JSON.stringify(files));
+
+    if(files !== undefined){
+        req.session.userData = files;
+        console.log("Saved JSON to Session");
+    }
+    else{
+        req.sessions.userData = -1;
+        console.log("Server Session Empty! No Files");
+    }
+
+    //res.json(JSON.stringify(files));
   }
   catch(e){
     error(res, e);
