@@ -176,13 +176,13 @@ function setSaved(){
   window.saveState.innerText = "Saved";
 }
 
-function isUserLoggedIn(){
+async function isUserLoggedIn(){
   const options = {
           method: "GET",
           headers: { "Content-Type": "application/json" }
         };
 
-   fetch('/index', options).then(function(res) {
+   await fetch('/index', options).then(function(res) {
     res.json().then(function(loggedIn) {
       if(loggedIn)
         return true;
