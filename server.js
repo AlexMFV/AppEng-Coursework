@@ -80,8 +80,10 @@ async function loginAcc(req, res){
 async function getFilesByUserId(req, res){
   try{
     const files = {};
-    files = await db.getFiles(getUserId(req, res));
-
+    const uId = getUserId(req, res);
+    console.log("Files UID:", uId); // DEBUG: Check
+    files = await db.getFiles(uId);
+    console.log("Files:", files); // DEBUG: Check
     res.json(JSON.stringify(files));
   }
   catch(e){
@@ -91,7 +93,8 @@ async function getFilesByUserId(req, res){
 
 async function getUserId(req, res){
   try{
-    const uId = await db.getUserId(req.session.userId);
+    const uId = await db.getUserId(req.session.userId);z
+    console.log("Server UID:", uId); // DEBUG: Check
     return uId;
   }
   catch(e){

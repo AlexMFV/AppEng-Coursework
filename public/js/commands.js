@@ -439,7 +439,7 @@ async function loginAccount(){
 async function getUserFiles(){
   const options = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json" }
   };
 
   await fetch('/files/user', options).then(function(res) {
