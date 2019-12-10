@@ -29,11 +29,7 @@ const state = {
 window.onload = () => {
   setUserState(false);
 
-  if(isUserLoggedIn())
-  {
-    getUserFiles();
-    userLoggedIn();
-  }
+  userLoggedIn();
 
   let buttons = document.getElementById('toolbar').children;
 
@@ -172,23 +168,27 @@ function setSaved(){
   window.saveState.innerText = "Saved";
 }
 
-function userLoggedIn(){
-  setUserState(true);
-  const files = req.session.userData;
-  console.log("Session:", files); // DEBUG: Check
+async function userLoggedIn(){
+  const isLoggedIn = await isUserLoggedIn();
 
-  const loginButton = document.getElementById('loginButton').classList.add('hidden');
-  const filesElem = document.getElementById('fileCbb');
-  filesElem.classList.remove('hidden');
-  filesElem.addEventListener('change', valueChanged);
-  //FillComboBox with values from the database
-  for(let i = 0; i < files.length; i++){
-    let child = document.createElement('option');
-    child.value = files[i].id;
-    child.innerText = files[i].file_name;
-    filesElem.appendChild(child);
+  if(isLoggedIn){
+    setUserState(true);
+    const files = await getUserData();
+    console.log("Session:", files); // DEBUG: Check
+
+    const loginButton = document.getElementById('loginButton').classList.add('hidden');
+    const filesElem = document.getElementById('fileCbb');
+    filesElem.classList.remove('hidden');
+    filesElem.addEventListener('change', valueChanged);
+    //FillComboBox with values from the database
+    for(let i = 0; i < files.length; i++){
+      let child = document.createElement('option');
+      child.value = files[i].id;
+      child.innerText = files[i].file_name;
+      filesElem.appendChild(child);
+    }
+    const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');
   }
-  const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');
 }
 
 function valueChanged(e){
