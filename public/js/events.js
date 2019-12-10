@@ -32,8 +32,9 @@ window.onload = () => {
 
 async function AsyncLoad(){
   setUserState(false);
-
-  if(await isUserLoggedIn()){
+  const isLoggedIn = await isUserLoggedIn();
+  
+  if(isLoggedIn){
     const files = await getUserFiles();
     processUserLogin(files);
   }

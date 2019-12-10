@@ -436,13 +436,13 @@ async function loginAccount(){
   return false;
 }
 
-async function getUserFiles(){
+function getUserFiles(){
   const options = {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   };
 
-  await fetch('/api/userfiles', options).then(function(res) {
+  fetch('/api/userfiles', options).then(function(res) {
     res.json().then(function(files) {
       return files;
     });
