@@ -93,7 +93,7 @@ async function getFilesByUserId(req, res){
 
 async function getUserId(req, res){
   try{
-    const uId = await db.getUserId(req.session.userId);z
+    const uId = await db.getUserId(req.session.userId);
     console.log("Server UID:", uId); // DEBUG: Check
     return uId;
   }
