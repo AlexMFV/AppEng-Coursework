@@ -28,6 +28,8 @@ app.get('/api/user', checkUserLogin);
 app.post('/api/create', createAcc);
 app.post('/api/login', loginAcc);
 app.get('/api/userfiles', getFilesByUserId);
+app.get('/api/logout', logoutUser);
+app.post('api/newfile', newDocument);
 
 app.get('/', function (req, res) {
   res.render('index');
@@ -85,6 +87,23 @@ function checkUserLogin(req, res){
   }
 }
 
+function logoutUser(req, res){
+  try{
+    const value = req.session.userId = undefined;
+    let toReturn;
+
+    if(value == undefined)
+      toReturn = true;
+    else
+      toReturn = false;
+
+    res.json(toReturn);
+  }
+  catch(e){
+    error(res, e);
+  }
+}
+
 async function getFilesByUserId(req, res){
   try{
     const uId = await getUserId(req, res);
@@ -106,6 +125,17 @@ async function getUserId(req, res){
   try{
     const uId = await db.getUserId(req.session.userId);
     return uId;
+  }
+  catch(e){
+    error(res, e);
+  }
+}
+
+async function newDocument(req, res){
+  try{
+    const uId = await db.getUserId(req.body.user);
+    const files = await db.createFile(req.body);
+
   }
   catch(e){
     error(res, e);

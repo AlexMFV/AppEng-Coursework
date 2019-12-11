@@ -392,8 +392,10 @@ async function afterLoad(){
     const files = await getUserFiles();
     userInfo.data = files;
     processUserLogin(files);
-    if(files.length > 0)
-      loadDocument(0);
+
+    if(files !== null)
+      if(files.length > 0)
+        loadDocument(0);
   }
   else{
     userInfo.loggedIn = false;
@@ -499,7 +501,7 @@ async function isUserLoggedIn(){
     return response;
 }
 
-function processUserLogin(files){
+async function processUserLogin(files){
   setUserState(true);
 
   const loginButton = document.getElementById('loginButton').classList.add('hidden');
@@ -507,57 +509,72 @@ function processUserLogin(files){
   filesElem.classList.remove('hidden');
   filesElem.addEventListener('change', valueChanged);
 
-  for(let i = 0; i < files.length; i++){
-    let child = document.createElement('option');
-    child.value = files[i].id;
-    child.innerText = files[i].file_name;
-    filesElem.appendChild(child);
+  if(files !== null){
+    for(let i = 0; i < files.length; i++){
+      let child = document.createElement('option');
+      child.value = files[i].id;
+      child.innerText = files[i].file_name;
+      filesElem.appendChild(child);
+    }
+  }
+  else{
+    const fileName = promptFileName();
+    const userInfo.data = await createNewDocument();
+
+    
+
+    /*let child = document.createElement('option');
+    child.value = -1;
+    child.innerText = "NO FILES CREATED YET";
+    filesElem.appendChild(child);*/
   }
   const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');
 }
 
+async function createNewDocument(){
+  const response = await fetch('/api/newfile', {})
+    .then((response) => {return response.json();});
+    return response;
+}
+
+async function logoutUser(){
+  if(await logOut()){
+    userInfo.loggedIn = false;
+    userInfo.data = {};
+    alert("Successfully logged out the user!");
+    window.location.href = "./index.html";
+  }
+  else
+    alert("There was a problem logging out, please try again!");
+}
+
+async function logOut(){
+  const response = await fetch('/api/logout', {})
+    .then((response) => {return response.json();});
+    return response;
+}
+
+//RANDOM METHODS
+
+function promptFileName(fileNum){
+  let name;
+
+  if(fileNum <= 0)
+    name = prompt("Please enter a name for the file", "File 1");
+  else
+    name = prompt("Please enter a name for the file", "File " + fileNum);
+
+  if(name !== null)
+    return name;
+  else
+    return "File " + fileNum.toString();
+}
+
 //TODO:
 
-//If the user has a session then load All the file names TO A COMBOBOX according to that User (GetUserID then GetAllFilesFromUserID).
-//When the user changes the file in the combobox load that file from the database.
+//Save the documents on the database after writing
+//Add a button to allow the user to create new files (With names, or presets);
+  //after creating the new document, add to the database and retrieve everything
+  //[The last index is the newly created document]
+//Add a button to allow the user to rename the file
 //Add the ability for the user to Delete a file permanently (From the database ofc).
-
-//-------------------------------------------------
-
-//function boldText(target){
-//  const editor = document.getElementById("editor");
-//  let sel = window.getSelection().toString();
-//
-//  if(sel != ""){
-//    if(sel.includes("<span") && sel.includes("bold")){
-//
-//    }
-//    else{
-//      console.log("Before: " + sel);
-//      let newSel = encapsulate(sel, "span", mods.bold);
-//      console.log("After: " + newSel);
-//      editor.innerHTML = editor.innerHTML.replace(sel, newSel);
-//    }
-//  }
-//}
-
-//function italicText(target){
-//  console.log("Italic On/Off");
-//}
-//
-//function underlineText(target){
-//  console.log("Underline On/Off");
-//}
-//
-//function strikeText(target){
-//  console.log("Strike On/Off");
-//}
-//
-//function fontText(target, value){
-//  console.log("Font Level: " + value);
-//}
-
-////Function to decapsulate a function
-//function decapsulate(text){
-//
-//}

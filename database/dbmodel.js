@@ -66,10 +66,10 @@ module.exports.deleteFile = async (fileId) => {
   console.log("Deleted File!");
 };
 
-module.exports.uploadFile = async (reqFile, title) => {
+module.exports.createFile = async (reqFile, title) => {
   //Add the file to the database
   //Assign the file to the user
-  console.log("Uploaded File!");
+  console.log("Created File!");
 };
 
 module.exports.saveFile = async (fileId, newContent) => {
