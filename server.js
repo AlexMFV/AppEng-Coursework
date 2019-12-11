@@ -24,10 +24,10 @@ app.use(session({
   }
 }));
 
+app.get('/api/user', checkUserLogin);
 app.post('/api/create', createAcc);
 app.post('/api/login', loginAcc);
 app.get('/api/userfiles', getFilesByUserId);
-app.get('/api/user', checkUserLogin);
 
 app.get('/', function (req, res) {
   res.render('index');
@@ -74,14 +74,11 @@ async function loginAcc(req, res){
   }
 }
 
-async function checkUserLogin(req, res){
+function checkUserLogin(req, res){
   try{
-    console.log("Requested");
-    const value = req.session.userId !== undefined ? true : false;
-
-    console.log("Got value: ", value);
+    const value = (req.session.userId !== undefined ? true : false);
     res.json(value);
-    return value;
+    return JSON.stringify(value);
   }
   catch(e){
     error(res, e);
@@ -91,20 +88,14 @@ async function checkUserLogin(req, res){
 async function getFilesByUserId(req, res){
   try{
     const uId = await getUserId(req, res);
-    console.log("Files UID:", uId); // DEBUG: Check
     const files = await db.getFiles(uId);
-    console.log("Files:", files); // DEBUG: Check
 
-    if(files !== undefined){
+    if(files !== undefined)
         req.session.userData = files;
-        console.log("Saved JSON to Session");
-    }
-    else{
+    else
         req.sessions.userData = -1;
-        console.log("Server Session Empty! No Files");
-    }
 
-    //res.json(JSON.stringify(files));
+    res.json(files);
   }
   catch(e){
     error(res, e);
@@ -114,7 +105,6 @@ async function getFilesByUserId(req, res){
 async function getUserId(req, res){
   try{
     const uId = await db.getUserId(req.session.userId);
-    console.log("Server UID:", uId); // DEBUG: Check
     return uId;
   }
   catch(e){

@@ -15,7 +15,8 @@ const mods = {
   "font":"font",
   "indent":"plusIndent",
   "deindent":"minusIndent",
-  "del":"docDelete"
+  "del":"docDelete",
+  "logout":"logout"
 };
 
 const state = {
@@ -24,19 +25,8 @@ const state = {
   "saved":"saved"
 };
 
-window.onload = () => {
-  AsyncLoad();
-};
-
-async function AsyncLoad(){
-  setUserState(false);
-  const isLoggedIn = await isUserLoggedIn();
-
-  if(isLoggedIn){
-    const files = await getUserFiles();
-    processUserLogin(files);
-  }
-
+window.onload = async () => {
+  //setUserState(false);
   let buttons = document.getElementById('toolbar').children;
 
   for(let i = 0; i < buttons.length; i++){
@@ -46,20 +36,7 @@ async function AsyncLoad(){
     else if(buttons[i].tagName === types.select)
       buttons[i].addEventListener("change", loadCommand);
   }
-
-  let mainchildren = window.editor.children;
-  if(loadFromLocalFile()){
-    for(let i = 0; i < mainchildren.length; i++){
-      for(let j = 0; j < mainchildren[i].children.length; j++)
-      {
-        if(mainchildren[i].children[j].tagName === types.button){
-          mainchildren[i].children[j].addEventListener("click", buttonClick);
-          mainchildren[i].children[j].addEventListener('dblclick', buttonDoubleClick);
-        }
-      }
-    }
-  }
-}
+};
 
 window.editor.onkeydown = (e) => {
   let toReturn;
@@ -137,6 +114,7 @@ function modify(target, command, e){
     case mods.indent: indentElement(); break;
     case mods.deindent: deindentElement(); break;
     case mods.del: deleteDocument(); break;
+    case mods.logout: logoutUser(); break;
   }
 }
 

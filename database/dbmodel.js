@@ -53,7 +53,7 @@ module.exports.getUserId = async (user_name) => {
   const query = "select id from Account where usr=$1";
   const result = await sql.query(query, [user_name]);
 
-  console.log("Module UID:", result.rows[0].id); // DEBUG: Check
+  //console.log("Module UID:", result.rows[0].id); // DEBUG: Check
 
   if(result.rows.length < 1)
     return -1;

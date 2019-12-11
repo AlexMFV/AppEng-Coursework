@@ -350,6 +350,21 @@ function clearLocalFile(){
   localStorage.setItem("personalDoc", "");
 }
 
+function localLoad(){
+  let mainchildren = window.editor.children;
+  if(loadFromLocalFile()){
+    for(let i = 0; i < mainchildren.length; i++){
+      for(let j = 0; j < mainchildren[i].children.length; j++)
+      {
+        if(mainchildren[i].children[j].tagName === types.button){
+          mainchildren[i].children[j].addEventListener("click", buttonClick);
+          mainchildren[i].children[j].addEventListener('dblclick', buttonDoubleClick);
+        }
+      }
+    }
+  }
+}
+
 //STATES / CHANGES
 
 function setUserState(bool){
@@ -361,10 +376,31 @@ function getUserState(){
 }
 
 function valueChanged(e){
-  console.log("The value of the Combobox is now: " + e.target.value);
+  loadDocument(e.target.selectedIndex);
 }
 
 //SERVER/DATABASE METHODS
+
+function loadDocument(id){
+  window.editor.innerHTML = userInfo.data[id].contents;
+}
+
+async function afterLoad(){
+  const isLoggedIn = await isUserLoggedIn();
+  if(isLoggedIn){
+    userInfo.loggedIn = true;
+    const files = await getUserFiles();
+    userInfo.data = files;
+    processUserLogin(files);
+    if(files.length > 0)
+      loadDocument(0);
+  }
+  else{
+    userInfo.loggedIn = false;
+    userInfo.data = {};
+    localLoad();
+  }
+}
 
 async function createAccount(){
   const user = document.getElementById('cUser');
@@ -451,50 +487,26 @@ async function loginAccount(){
   return false;
 }
 
-function getUserFiles(){
-  const options = {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  };
-
-  fetch('/api/userfiles', options).then(function(res) {
-    res.json().then(function(files) {
-      return files;
-    });
-  }).catch(function(err) {
-    console.log('Fetch Error: ', err);
-  });
-
-  return null;
+async function getUserFiles(){
+  const response = await fetch('/api/userfiles', {})
+    .then((response) => {return response.json();});
+  return response;
 }
 
-function isUserLoggedIn(){
-  const options = {
-          method: "GET",
-          headers: { "Content-Type": "application/json" }
-        };
-
-  fetch('/api/user', options).then(function(res) {
-    res.json().then(function(loggedIn) {
-      if(loggedIn)
-        return true;
-      else
-        return false;
-    });
-  }).catch(function(err) {
-    console.log('Fetch Error: ', err);
-  });
+async function isUserLoggedIn(){
+  const response = await fetch('/api/user', {})
+    .then((response) => {return response.json();});
+    return response;
 }
 
 function processUserLogin(files){
   setUserState(true);
-  console.log("Session:", files); // DEBUG: Check
 
   const loginButton = document.getElementById('loginButton').classList.add('hidden');
   const filesElem = document.getElementById('fileCbb');
   filesElem.classList.remove('hidden');
   filesElem.addEventListener('change', valueChanged);
-  //FillComboBox with values from the database
+
   for(let i = 0; i < files.length; i++){
     let child = document.createElement('option');
     child.value = files[i].id;
