@@ -1,4 +1,5 @@
 // CORE FUNCTIONALITY
+
 function loadDocument(){
   loadFromLocalFile();
 }
@@ -349,6 +350,20 @@ function clearLocalFile(){
   localStorage.setItem("personalDoc", "");
 }
 
+//STATES / CHANGES
+
+function setUserState(bool){
+  localStorage.setItem("userLogged", bool);
+}
+
+function getUserState(){
+  return localStorage.getItem("userLogged");
+}
+
+function valueChanged(e){
+  console.log("The value of the Combobox is now: " + e.target.value);
+}
+
 //SERVER/DATABASE METHODS
 
 async function createAccount(){
@@ -451,6 +466,42 @@ function getUserFiles(){
   });
 
   return null;
+}
+
+function isUserLoggedIn(){
+  const options = {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        };
+
+  fetch('/api/user', options).then(function(res) {
+    res.json().then(function(loggedIn) {
+      if(loggedIn)
+        return true;
+      else
+        return false;
+    });
+  }).catch(function(err) {
+    console.log('Fetch Error: ', err);
+  });
+}
+
+function processUserLogin(files){
+  setUserState(true);
+  console.log("Session:", files); // DEBUG: Check
+
+  const loginButton = document.getElementById('loginButton').classList.add('hidden');
+  const filesElem = document.getElementById('fileCbb');
+  filesElem.classList.remove('hidden');
+  filesElem.addEventListener('change', valueChanged);
+  //FillComboBox with values from the database
+  for(let i = 0; i < files.length; i++){
+    let child = document.createElement('option');
+    child.value = files[i].id;
+    child.innerText = files[i].file_name;
+    filesElem.appendChild(child);
+  }
+  const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');
 }
 
 //TODO:

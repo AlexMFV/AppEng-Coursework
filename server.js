@@ -26,13 +26,12 @@ app.use(session({
 
 app.post('/api/create', createAcc);
 app.post('/api/login', loginAcc);
-app.get('/api/userfiles', getFilesByUserId)
+app.get('/api/userfiles', getFilesByUserId);
+app.get('/api/user', checkUserLogin);
 
 app.get('/', function (req, res) {
   res.render('index');
 });
-
-app.get('/index', checkUserLogin);
 
 app.get('/login', function (req, res) {
   res.json(JSON.stringify(req.session.userId));
@@ -71,7 +70,7 @@ async function loginAcc(req, res){
     res.json(exists);
   }
   catch(e){
-    error(res, e)
+    error(res, e);
   }
 }
 
@@ -82,9 +81,10 @@ async function checkUserLogin(req, res){
 
     console.log("Got value: ", value);
     res.json(value);
+    return value;
   }
   catch(e){
-    error(res, e)
+    error(res, e);
   }
 }
 

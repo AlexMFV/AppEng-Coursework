@@ -24,8 +24,6 @@ const state = {
   "saved":"saved"
 };
 
-//Runds through all the toolbar children, ie. the buttons to modify the text
-//and adds an eventlistener on click, to execute the required command.
 window.onload = () => {
   AsyncLoad();
 };
@@ -174,52 +172,4 @@ function setSaving(){
 function setSaved(){
   window.saveState.className = "saved";
   window.saveState.innerText = "Saved";
-}
-
-async function isUserLoggedIn(){
-  const options = {
-          method: "GET",
-          headers: { "Content-Type": "application/json" }
-        };
-
-   await fetch('/index', options).then(function(res) {
-    res.json().then(function(loggedIn) {
-      if(loggedIn)
-        return true;
-      else
-        return false;
-    });
-  }).catch(function(err) {
-    console.log('Fetch Error: ', err);
-  });
-}
-
-function processUserLogin(files){
-  setUserState(true);
-  console.log("Session:", files); // DEBUG: Check
-
-  const loginButton = document.getElementById('loginButton').classList.add('hidden');
-  const filesElem = document.getElementById('fileCbb');
-  filesElem.classList.remove('hidden');
-  filesElem.addEventListener('change', valueChanged);
-  //FillComboBox with values from the database
-  for(let i = 0; i < files.length; i++){
-    let child = document.createElement('option');
-    child.value = files[i].id;
-    child.innerText = files[i].file_name;
-    filesElem.appendChild(child);
-  }
-  const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');
-}
-
-function valueChanged(e){
-  console.log("The value of the Combobox is now: " + e.target.value);
-}
-
-function setUserState(bool){
-  localStorage.setItem("userLogged", bool);
-}
-
-function getUserState(){
-  return localStorage.getItem("userLogged");
 }
