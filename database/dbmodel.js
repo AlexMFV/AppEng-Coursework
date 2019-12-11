@@ -75,12 +75,25 @@ module.exports.createFile = async (userId, filename) => {
   return false;
 };
 
-module.exports.deleteFile = async (fileId) => {
-  //Delete the file with the current fileId
-  console.log("Deleted File!");
+module.exports.updateFile = async (userId, fileId, content) => {
+  //This query is necessary so that if the user changed the id in the global variable
+  //of the file manually this checks if the changed id exists with the current account
+  const verif = "select id from Acc_File where usr_id=$1 and file_id=$2";
+  const query = "update File set contents=$1, last_update=now() where id=$2";
+
+  const returned = await sql.query(verif, [userId, fileId]);
+
+  if(returned.rows.length > 0){
+    await sql.query(query, [content, fileId]);
+    return true;
+  }
+  return false;
 };
 
-module.exports.saveFile = async (fileId, newContent) => {
-  //Alter the content of the file with the corresponding fileId
-  console.log("Saved File!");
+module.exports.deleteFile = async (fileId) => {
+  //Delete the file with the current fileId
+};
+
+module.exports.renameFile = async (fileId, newName) => {
+
 };

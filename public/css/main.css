@@ -145,6 +145,11 @@ body, html{
   color: #d6411c;
 }
 
+.error{
+  background-color: #e00007;
+  color: #fff;
+}
+
 #btnIndent{
   outline: none;
 }

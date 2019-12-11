@@ -1,9 +1,5 @@
 // CORE FUNCTIONALITY
 
-function loadDocument(){
-  loadFromLocalFile();
-}
-
 function initializeDocument(){
   window.editor.innerHTML = "";
   const elem = document.createElement('div');
@@ -351,18 +347,8 @@ function clearLocalFile(){
 }
 
 function localLoad(){
-  let mainchildren = window.editor.children;
-  if(loadFromLocalFile()){
-    for(let i = 0; i < mainchildren.length; i++){
-      for(let j = 0; j < mainchildren[i].children.length; j++)
-      {
-        if(mainchildren[i].children[j].tagName === types.button){
-          mainchildren[i].children[j].addEventListener("click", buttonClick);
-          mainchildren[i].children[j].addEventListener('dblclick', buttonDoubleClick);
-        }
-      }
-    }
-  }
+  if(loadFromLocalFile())
+    reloadButtons();
 }
 
 //STATES / CHANGES
@@ -376,13 +362,37 @@ function getUserState(){
 }
 
 function valueChanged(e){
-  loadDocument(e.target.selectedIndex);
+  loadUserDocument(e.target.selectedIndex);
 }
 
 //SERVER/DATABASE METHODS
 
-function loadDocument(id){
+async function saveToDatabase(){
+  const fileIds = document.getElementById('fileCbb');
+  const content = window.editor.innerHTML;
+  const fileId = userInfo.data[fileIds.selectedIndex].id;
+
+  const data = { fileId, content };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  };
+
+  const response = await fetch('/api/savefile', options)
+    .then((response) => { return response.json(); });
+
+    if(response)
+      checkState(state.saved);
+    else
+      checkState(state.error);
+}
+
+function loadUserDocument(id){
   window.editor.innerHTML = userInfo.data[id].contents;
+  reloadButtons();
 }
 
 async function afterLoad(){
@@ -395,7 +405,7 @@ async function afterLoad(){
 
     if(files !== null)
       if(files.length > 0)
-        loadDocument(0);
+        loadUserDocument(0);
   }
   else{
     userInfo.loggedIn = false;
@@ -562,6 +572,19 @@ async function logOut(){
 }
 
 //RANDOM METHODS
+
+function reloadButtons(){
+  let mainchildren = window.editor.children;
+  for(let i = 0; i < mainchildren.length; i++){
+    for(let j = 0; j < mainchildren[i].children.length; j++)
+    {
+      if(mainchildren[i].children[j].tagName === types.button){
+        mainchildren[i].children[j].addEventListener("click", buttonClick);
+        mainchildren[i].children[j].addEventListener('dblclick', buttonDoubleClick);
+      }
+    }
+  }
+}
 
 function promptFileName(fileNum){
   let name;

@@ -107,10 +107,10 @@ function loadCommand(e) {
 function modify(target, command, e){
   switch(command){
     case mods.level: textualPoint(e); break;
-    case mods.bold: boldText(e.target); break;
-    case mods.italic: italicText(e.target); break;
-    case mods.underline: underlineText(e.target); break;
-    case mods.strike: strikeText(e.target); break;
+    //case mods.bold: boldText(e.target); break;
+    //case mods.italic: italicText(e.target); break;
+    //case mods.underline: underlineText(e.target); break;
+    //case mods.strike: strikeText(e.target); break;
     case mods.indent: indentElement(); break;
     case mods.deindent: deindentElement(); break;
     case mods.del: deleteDocument(); break;
@@ -121,12 +121,15 @@ function modify(target, command, e){
 //Executes commands that need to have a value
 function multiModify(target, command, value){
   switch(command){
-    case mods.font: fontText(e.target, value); break;
+    //case mods.font: fontText(e.target, value); break;
   }
 }
 
 function setTimer(){
-  interval = setTimeout(saveToLocalFile, 1500);
+  if(userInfo.loggedIn)
+    interval = setTimeout(saveToDatabase, 1500);
+  else
+    interval = setTimeout(saveToLocalFile, 1500);
 }
 
 function checkState(type){
@@ -134,6 +137,7 @@ function checkState(type){
     case state.notsaved: setNotSaved(); break;
     case state.saving: setSaving(); break;
     case state.saved: setSaved(); break;
+    case state.error: setError(); break;
   }
 }
 
@@ -150,4 +154,9 @@ function setSaving(){
 function setSaved(){
   window.saveState.className = "saved";
   window.saveState.innerText = "Saved";
+}
+
+function setError(){
+  window.saveState.className = "error";
+  window.saveState.innerText = "ERROR";
 }

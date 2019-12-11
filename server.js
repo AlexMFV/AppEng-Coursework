@@ -30,6 +30,7 @@ app.post('/api/login', loginAcc);
 app.get('/api/userfiles', getFilesByUserId);
 app.get('/api/logout', logoutUser);
 app.post('/api/newfile', newDocument);
+app.post('/api/savefile', saveDocument);
 
 app.get('/', function (req, res) {
   res.render('index');
@@ -141,6 +142,18 @@ async function newDocument(req, res){
       files = await db.getFiles(uId);
 
     res.json(files);
+  }
+  catch(e){
+    error(res, e);
+  }
+}
+
+async function saveDocument(req, res){
+  try{
+    const uId = await db.getUserId(req.session.userId);
+    const isSaved = await db.updateFile(uId, req.body.fileId, req.body.content);
+
+    res.json(isSaved);
   }
   catch(e){
     error(res, e);
