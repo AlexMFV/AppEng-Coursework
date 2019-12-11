@@ -518,21 +518,28 @@ async function processUserLogin(files){
     }
   }
   else{
-    const fileName = promptFileName();
-    const userInfo.data = await createNewDocument();
+    const fileName = promptFileName(0);
+    const data = await createNewDocument(fileName);
+    userInfo.data = data;
 
-    
-
-    /*let child = document.createElement('option');
-    child.value = -1;
-    child.innerText = "NO FILES CREATED YET";
-    filesElem.appendChild(child);*/
+    let child = document.createElement('option');
+    child.value = userInfo.data[0].id;
+    child.innerText = userInfo.data[0].file_name;
+    filesElem.appendChild(child);
   }
   const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');
 }
 
-async function createNewDocument(){
-  const response = await fetch('/api/newfile', {})
+async function createNewDocument(filename){
+  const data = { filename };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  };
+  const response = await fetch('/api/newfile', options)
     .then((response) => {return response.json();});
     return response;
 }
@@ -573,8 +580,6 @@ function promptFileName(fileNum){
 //TODO:
 
 //Save the documents on the database after writing
-//Add a button to allow the user to create new files (With names, or presets);
-  //after creating the new document, add to the database and retrieve everything
-  //[The last index is the newly created document]
+//Add a button to allow the user to create new files;
 //Add a button to allow the user to rename the file
 //Add the ability for the user to Delete a file permanently (From the database ofc).

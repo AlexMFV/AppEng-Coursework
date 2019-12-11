@@ -53,23 +53,31 @@ module.exports.getUserId = async (user_name) => {
   const query = "select id from Account where usr=$1";
   const result = await sql.query(query, [user_name]);
 
-  //console.log("Module UID:", result.rows[0].id); // DEBUG: Check
-
   if(result.rows.length < 1)
     return -1;
   else
     return result.rows[0].id;
 };
 
+module.exports.createFile = async (userId, filename) => {
+  const query = "insert into File(file_name, last_update) values($1, now()) returning id";
+  const query2 = "insert into Acc_File(usr_id, file_id) values($1, $2) returning id";
+
+  const fileId = await sql.query(query, [filename]);
+
+  if(fileId.rows.length > 0){
+    const result = await sql.query(query2, [userId, fileId.rows[0].id]);
+
+    if(result.rows.length > 0)
+      return true;
+    return false;
+  }
+  return false;
+};
+
 module.exports.deleteFile = async (fileId) => {
   //Delete the file with the current fileId
   console.log("Deleted File!");
-};
-
-module.exports.createFile = async (reqFile, title) => {
-  //Add the file to the database
-  //Assign the file to the user
-  console.log("Created File!");
 };
 
 module.exports.saveFile = async (fileId, newContent) => {

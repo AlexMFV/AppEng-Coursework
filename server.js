@@ -29,7 +29,7 @@ app.post('/api/create', createAcc);
 app.post('/api/login', loginAcc);
 app.get('/api/userfiles', getFilesByUserId);
 app.get('/api/logout', logoutUser);
-app.post('api/newfile', newDocument);
+app.post('/api/newfile', newDocument);
 
 app.get('/', function (req, res) {
   res.render('index');
@@ -133,9 +133,14 @@ async function getUserId(req, res){
 
 async function newDocument(req, res){
   try{
-    const uId = await db.getUserId(req.body.user);
-    const files = await db.createFile(req.body);
+    const uId = await db.getUserId(req.session.userId);
+    const isCreated = await db.createFile(uId, req.body.filename);
 
+    let files = null;
+    if(isCreated)
+      files = await db.getFiles(uId);
+
+    res.json(files);
   }
   catch(e){
     error(res, e);
