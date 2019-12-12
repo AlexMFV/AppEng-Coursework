@@ -75,7 +75,7 @@ body, html{
 .h2 {
   display: block;
   font-size: 1.6em;
-  margin-top: 0.1em;
+  margin-top: 0.37em;
   margin-bottom: 0.1em;
   margin-left: 0;
   margin-right: 0;
@@ -84,7 +84,7 @@ body, html{
 .h3 {
   display: block;
   font-size: 1.3em;
-  margin-top: 0.1em;
+  margin-top: 0.7em;
   margin-bottom: 0.1em;
   margin-left: 0;
   margin-right: 0;
@@ -93,7 +93,7 @@ body, html{
 .h4 {
   display: block;
   font-size: .85em;
-  margin-top: 0.1em;
+  margin-top: 1em;
   margin-bottom: 0.1em;
   margin-left: 0;
   margin-right: 0;
@@ -102,7 +102,7 @@ body, html{
 .h5 {
   display: block;
   font-size: .65em;
-  margin-top: 0.1em;
+  margin-top: 1.3em;
   margin-bottom: 0.1em;
   margin-left: 0;
   margin-right: 0;
@@ -111,8 +111,8 @@ body, html{
 .h6 {
   display: block;
   font-size: .5em;
-  margin-top: 2.33em;
-  margin-bottom: 2em;
+  margin-top: 2.25em;
+  margin-bottom: 0.1em;
   margin-left: 0;
   margin-right: 0;
 }
