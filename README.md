@@ -6,13 +6,13 @@
 - express-session
 - js-sha256
 
-##How to build:
+## How to build:
 
-1- Install all the dependencies with "npm install"
-2- Install the database with "npm run setup"
-3- Run the project with "npm start" on the root directory
+ - Install all the dependencies with "npm install"
+ - Install the database with "npm run setup"
+ - Run the project with "npm start" on the root directory
 
-###Extra (OPTIONAL):
+### Extra (OPTIONAL):
   - IF dummy data is necessary use the command "npm run dummy"
   - IF the database needs to be deleted use "npm run deletedb"
 
@@ -41,7 +41,7 @@
 
 - Indentations:
   - Indent with "Tab" or press the ">" button
-  - DeIndente with "Shift+Tab" or press the "<" button
+  - DeIndent with "Shift+Tab" or press the "<" button
 
 - Force Save:
   - It's a manual save, can also be achieved with "Ctrl+S"
@@ -80,3 +80,4 @@
   - Page System (like MS Word)
   - Text import/export
   - Write with MarkDown
+  - Host Online as a Commercial App
