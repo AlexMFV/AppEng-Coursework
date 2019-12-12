@@ -241,7 +241,6 @@ function textualPointShortcut(value){
 
 function textualPoint(e){
   const index = document.getElementById('levelSelector').selectedIndex+1;
-  //const target = e.target;
   const selection = document.getSelection();
 
   //If a selection exists
@@ -430,8 +429,10 @@ async function saveToDatabase(){
   const response = await fetch('/api/savefile', options)
     .then((response) => { return response.json(); });
 
-    if(response)
+    if(response){
+      userInfo.data[fileIds.selectedIndex].contents = window.editor.innerHTML;
       checkState(state.saved);
+    }
     else
       checkState(state.error);
 }
@@ -650,8 +651,6 @@ async function createNewDocument(filename){
   const response = await fetch('/api/newfile', options)
     .then((response) => {return response.json();});
     return response;
-
-    //After creating the document switch to the newly created document
 }
 
 async function logoutUser(){

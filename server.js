@@ -20,7 +20,7 @@ app.use(session({
   cookie: {
     maxAge: 1000*60*60*24,
     sameSite: true,
-    secure: false //Set to true later
+    secure: false
   }
 }));
 
