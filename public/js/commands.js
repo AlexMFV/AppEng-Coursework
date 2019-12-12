@@ -320,7 +320,10 @@ function buttonDoubleClick(e){
         if(!children[i].classList.contains('indentation') && selectedValue === "20px")
           selectedValue = "0px";
 
-        if(selectedValue <= baseValue)
+          selectedValue = selectedValue.replace('px', '');
+          baseValue = baseValue.replace('px', '');
+
+        if(parseInt(selectedValue) <= parseInt(baseValue))
           break;
         else{
           if(e.target.value === "open")
@@ -342,10 +345,10 @@ function buttonClick(e){
   const startContainer = e.target.parentElement;
   const children = window.editor.children;
   let endContainer;
-  const baseStyle = getIndentValue(startContainer);
+  const baseStyle = getIndentValue(startContainer).replace('px', '');
 
   for(let i = getIndex(children, startContainer)+1; i < children.length; i++){
-    if(getIndentValue(children[i]) <= baseStyle){
+    if(parseInt(getIndentValue(children[i]).replace('px', '')) <= parseInt(baseStyle)){
       endContainer = children[i-1];
       break;
     }

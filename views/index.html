@@ -7,28 +7,60 @@
   </head>
   <body class="background">
     <div id="toolbar" class="main-toolbar">
-      <button type="button" title="Apply the selected Textual Point" value="level" name="button">Apply Textual Point</button>
-      <select id="levelSelector" name="levelCombo">
-        <option value="1">Level 1</option>
-        <option value="2">Level 2</option>
-        <option value="3">Level 3</option>
-        <option value="text">Normal Text</option>
-        <option value="4">Level 4</option>
-        <option value="5">Level 5</option>
-        <option value="6">Level 6</option>
-      </select>
-      <button type="button" title="De-Indent" value="minusIndent" name="button"><</button>
-      <button type="button" title="Indent" value="plusIndent" name="button">></button>
-      <a id="saveState" class="notsaved">Not Saved!</a>
+      <div class="toolbarChild">
+        <select id="levelSelector" name="levelCombo">
+          <option value="1">Level 1</option>
+          <option value="2">Level 2</option>
+          <option value="3">Level 3</option>
+          <option value="text">Normal Text</option>
+          <option value="4">Level 4</option>
+          <option value="5">Level 5</option>
+          <option value="6">Level 6</option>
+        </select>
+        <button type="button" class="button" title="Apply the selected Textual Point" value="level" name="button">Apply Textual Point Level</button>
 
-      <button type="button" class="hidden" title="Create new Document" id="createDoc" value="newDoc" name="button">New Doc</button>
-      <button type="button" title="Force save the Document" id="updateDoc" value="saveDoc" name="button">Force Save</button>
-      <button type="button" class="hidden" title="Rename the Document" id="alterDoc" value="renameDoc" name="button">Rename Doc</button>
-      <button type="button" title="Delete Document" id="deleteDoc" value="docDelete" name="button">Delete Doc</button>
+        <button type="button" class="button" title="De-Indent" value="minusIndent" name="button"><</button>
+        <button type="button" class="button" title="Indent" value="plusIndent" name="button">></button>
 
-      <select id="fileCbb" class="hidden" name="fileCombo"></select>
-      <button id="logoutButton" title="Logout of the account" class="hidden" type="button" value="logout" name="button">Logout</button>
-      <a id="loginButton" href="./login.html"><button title="Go to login page" type="button" name="button">Login</button></a>
+        <button id="logoutButton" title="Logout of the account" class="hidden button" type="button" value="logout" name="button">Logout</button>
+        <a id="loginButton" href="./login.html"><button class="button" title="Go to login page" type="button" name="button">Login</button></a>
+        <br/>
+        <button type="button" class="hidden button" title="Create new Document" id="createDoc" value="newDoc" name="button">New Doc</button>
+        <button type="button" class="button" title="Force save the Document" id="updateDoc" value="saveDoc" name="button">Force Save</button>
+        <button type="button" class="hidden button" title="Rename the Document" id="alterDoc" value="renameDoc" name="button">Rename Doc</button>
+        <button type="button" class="button" title="Delete Document" id="deleteDoc" value="docDelete" name="button">Delete Doc</button>
+        <select id="fileCbb" class="hidden" name="fileCombo"></select>
+      </div>
+
+      <!-- MODAL THAT CONTAINS THE INSTRUCTIONS -->
+
+      <div class="toolbarChild2">
+        <a style="color:#fff;">Document State: <a id="saveState" class="notsaved" style="margin-right: 2em">Not Saved!</a></a>
+        <button id="btnModal" class="inst button" title="Instructions/How to use">?</button>
+      </div>
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span id="btnClose" class="close">&times;</span>
+          <p class="h1">Instructions / Shortcuts</p>
+          <p class="h2 indentation">Shortcuts</p>
+          <p class="indentation" style="--indentValue:40px;">Although for some shortcuts the top buttons can be used, these are the shortcuts:</p>
+          <p class="indentation" style="--indentValue:60px;">- Indent Textual Point: <b>"Tab"</b>;</p>
+          <p class="indentation" style="--indentValue:60px;">- De-Indent Textual Point: <b>"Shift+Tab"</b>;</p>
+          <p class="indentation" style="--indentValue:60px;">- Change Textual Point Level (1 to 7): <b>"Ctrl+1"</b>to<b>"Ctrl+7"</b></p>
+          <p class="indentation" style="--indentValue:60px;">- Force Save Document: <b>"Ctrl+S"</b></p>
+
+          <p class="h2 indentation">Information</p>
+          <p class="indentation" style="--indentValue:40px;">Without login the user can only save one document and it's stored locally on the user's device.</p>
+          <p class="indentation" style="--indentValue:40px;">The login button redirects to the login page, when the user logins there are more features like (they appear after login):</p>
+          <p class="indentation" style="--indentValue:60px;">- Save Multiple Documents with names</p>
+          <p class="indentation" style="--indentValue:60px;">- Manage the documents (Edit, Rename, Delete)</p>
+          <p class="indentation" style="--indentValue:60px;">- Edit/See the documents anywhere</p>
+
+          <br/>
+          <p>Note: These shortcuts can be used on Windows with the <b>"Ctrl"</b> Key and on Mac with the <b>Control "^"</b> key</p>
+          <p>Note: The user can register on the "Login" page.</p>
+        </div>
+      </div>
     </div>
 
     <div class="container">

@@ -1,6 +1,5 @@
 let interval;
 
-//Enum that defines the buttons
 const types = {
   "button":"BUTTON",
   "select":"SELECT"
@@ -28,9 +27,16 @@ const state = {
   "saved":"saved"
 };
 
+window.btnModal.onclick = (e) => {
+  modal.style.display = "block";
+}
+
+window.btnClose.onclick = (e) => {
+  modal.style.display = "none";
+}
+
 window.onload = async () => {
-  //setUserState(false);
-  let buttons = document.getElementById('toolbar').children;
+  let buttons = document.getElementById('toolbar').children[0].children;
 
   for(let i = 0; i < buttons.length; i++){
     if(buttons[i].tagName === types.button){
@@ -51,21 +57,27 @@ window.editor.onkeydown = (e) => {
 
   if(e.key >= "1" && e.key <= "7" && (e.metaKey || e.ctrlKey)){
     textualPointShortcut(e.key);
+    toReturn = false;
+  }
+
+  if(e.ctrlKey && e.code == "KeyS"){
+    setTimer();
+    toReturn = false;
   }
 
   //Disable bold
   if(e.code === "KeyB" && (e.metaKey || e.ctrlKey)){
-    return false;
+    toReturn = false;
   }
 
   //Disable underline
   if(e.code === "KeyU" && (e.metaKey || e.ctrlKey)){
-    return false;
+    toReturn = false;
   }
 
   //Disable Italic
   if(e.code === "KeyI" && (e.metaKey || e.ctrlKey)){
-    return false;
+    toReturn = false;
   }
 
   if(e.code === "Backspace"){
@@ -96,7 +108,8 @@ window.editor.onkeydown = (e) => {
 
 //Determines if the commands needs a value or not then runs the funtion that executes it
 function loadCommand(e) {
-  //If there's a value to be determined it splits the string into command and value
+  clearTimeout(interval);
+  //If there's a value to be determined it splits the string into command and value (NOT USED ATM)
   if(e.target.value.includes(','))
   {
       const command = e.target.value.split(',')[0];
@@ -112,13 +125,9 @@ function loadCommand(e) {
 //Executes single commands (commands that dont need a value)
 function modify(target, command, e){
   switch(command){
-    case mods.level: textualPoint(e); break;
-    //case mods.bold: boldText(e.target); break;
-    //case mods.italic: italicText(e.target); break;
-    //case mods.underline: underlineText(e.target); break;
-    //case mods.strike: strikeText(e.target); break;
-    case mods.indent: indentElement(); break;
-    case mods.deindent: deindentElement(); break;
+    case mods.level: textualPoint(e); setTimer(); break;
+    case mods.indent: indentElement(); updateHierarchy(); setTimer(); break;
+    case mods.deindent: deindentElement(); updateHierarchy(); setTimer(); break;
     case mods.logout: logoutUser(); break;
     case mods.create: createNewDocument(promptFileName(userInfo.data.length)); reloadIndex(); break;
     case mods.save: setTimer(); break;
