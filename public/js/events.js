@@ -16,7 +16,10 @@ const mods = {
   "indent":"plusIndent",
   "deindent":"minusIndent",
   "del":"docDelete",
-  "logout":"logout"
+  "logout":"logout",
+  "create":"newDoc",
+  "save":"saveDoc",
+  "rename":"renameDoc"
 };
 
 const state = {
@@ -41,7 +44,6 @@ window.onload = async () => {
 window.editor.onkeydown = (e) => {
   let toReturn;
   clearTimeout(interval);
-  checkState(state.saving);
 
   if(window.editor.innerHTML == "" || window.editor.innerHTML == "<br>"){
     initializeDocument();
@@ -113,8 +115,11 @@ function modify(target, command, e){
     //case mods.strike: strikeText(e.target); break;
     case mods.indent: indentElement(); break;
     case mods.deindent: deindentElement(); break;
-    case mods.del: deleteDocument(); break;
     case mods.logout: logoutUser(); break;
+    case mods.create: createNewDocument(promptFileName(userInfo.data.length)); reloadIndex(); break;
+    case mods.save: setTimer(); break;
+    case mods.rename: renameInDatabase(); break;
+    case mods.del: deleteDocument(); break;
   }
 }
 
@@ -126,6 +131,7 @@ function multiModify(target, command, value){
 }
 
 function setTimer(){
+  checkState(state.saving);
   if(userInfo.loggedIn)
     interval = setTimeout(saveToDatabase, 1500);
   else

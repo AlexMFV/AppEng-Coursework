@@ -20,12 +20,17 @@
       <button type="button" title="De-Indent" value="minusIndent" name="button"><</button>
       <button type="button" title="Indent" value="plusIndent" name="button">></button>
       <a id="saveState" class="notsaved">Not Saved!</a>
-      <button type="button" title="Delete Document" id="deleteDoc" value="docDelete" name="button">X</button>
+
+      <button type="button" class="hidden" title="Create new Document" id="createDoc" value="newDoc" name="button">New Doc</button>
+      <button type="button" title="Force save the Document" id="updateDoc" value="saveDoc" name="button">Force Save</button>
+      <button type="button" class="hidden" title="Rename the Document" id="alterDoc" value="renameDoc" name="button">Rename Doc</button>
+      <button type="button" title="Delete Document" id="deleteDoc" value="docDelete" name="button">Delete Doc</button>
+
       <select id="fileCbb" class="hidden" name="fileCombo"></select>
       <button id="logoutButton" class="hidden" type="button" value="logout" name="button">Logout</button>
       <a id="loginButton" href="./login.html"><button type="button" name="button">Login</button></a>
     </div>
-    
+
     <div class="container">
       <div id="editor" class="main-editor" contenteditable="true"></div>
       </div>

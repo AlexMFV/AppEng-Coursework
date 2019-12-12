@@ -31,6 +31,8 @@ app.get('/api/userfiles', getFilesByUserId);
 app.get('/api/logout', logoutUser);
 app.post('/api/newfile', newDocument);
 app.post('/api/savefile', saveDocument);
+app.post('/api/renamefile', renameDocument);
+app.post('/api/deleteFile', deleteDocument);
 
 app.get('/', function (req, res) {
   res.render('index');
@@ -154,6 +156,30 @@ async function saveDocument(req, res){
     const isSaved = await db.updateFile(uId, req.body.fileId, req.body.content);
 
     res.json(isSaved);
+  }
+  catch(e){
+    error(res, e);
+  }
+}
+
+async function renameDocument(req, res){
+  try{
+    const uId = await db.getUserId(req.session.userId);
+    const isRenamed = await db.renameFile(uId, req.body.fileId, req.body.newName);
+
+    res.json(isRenamed);
+  }
+  catch(e){
+    error(res, e);
+  }
+}
+
+async function deleteDocument(req, res){
+  try{
+    const uId = await db.getUserId(req.session.userId);
+    const isDeleted = await db.deleteFile(uId, req.body.fileId);
+
+    res.json(isDeleted);
   }
   catch(e){
     error(res, e);

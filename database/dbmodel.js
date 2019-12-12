@@ -90,10 +90,37 @@ module.exports.updateFile = async (userId, fileId, content) => {
   return false;
 };
 
-module.exports.deleteFile = async (fileId) => {
-  //Delete the file with the current fileId
+module.exports.deleteFile = async (userId, fileId) => {
+  //Delete the file with the current fileId if the file exists in the user account
+  const verif = "select id from Acc_File where usr_id=$1 and file_id=$2";
+  const query = "delete from Acc_File where usr_id=$1 and file_id=$2";
+  const query2 = "delete from File where id=$1";
+
+  const returned = await sql.query(verif, [userId, fileId]);
+
+  if(returned.rows.length > 0){
+    try{
+      await sql.query(query, [userId, fileId]);
+      await sql.query(query2, [fileId]);
+      return true;
+    }
+    catch(e){
+      console.log(e.message);
+    }
+  }
+  return false;
 };
 
-module.exports.renameFile = async (fileId, newName) => {
+module.exports.renameFile = async (userId, fileId, file_name) => {
+  //Update the name of the file with the corresponding fileId if the file exists in the user account
+  const verif = "select id from Acc_File where usr_id=$1 and file_id=$2";
+  const query = "update File set file_name=$1 where id=$2 returning file_name as name";
 
+  const returned = await sql.query(verif, [userId, fileId]);
+
+  if(returned.rows.length > 0){
+    const newName = await sql.query(query, [file_name, fileId]);
+    return newName.rows[0].name;
+  }
+  return false;
 };

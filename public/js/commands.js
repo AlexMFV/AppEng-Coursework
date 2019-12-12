@@ -157,8 +157,13 @@ function updateHierarchy(){
 }
 
 function deleteDocument(){
-  clearLocalFile();
-  initializeDocument();
+  if(userInfo.loggedIn){
+    deleteFromDatabase();
+  }
+  else{
+    clearLocalFile();
+    initializeDocument();
+  }
 }
 
 // CARET GET/SET
@@ -390,6 +395,56 @@ async function saveToDatabase(){
       checkState(state.error);
 }
 
+async function deleteFromDatabase(){
+  const fileIds = document.getElementById('fileCbb');
+  const fileId = userInfo.data[fileIds.selectedIndex].id;
+
+  const data = { fileId };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  };
+
+  const response = await fetch('/api/deleteFile', options)
+    .then((response) => { return response.json(); });
+
+    if(response){
+      alert("File deleted successfully!");
+      reloadIndex();
+    }
+    else
+      alert("There was a problem deleting the file from the database!");
+}
+
+async function renameInDatabase(){
+  const fileIds = document.getElementById('fileCbb');
+  const fileId = userInfo.data[fileIds.selectedIndex].id;
+  const newName = promptFileName(userInfo.data.length);
+
+  const data = { fileId, newName };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  };
+
+  const response = await fetch('/api/renamefile', options)
+    .then((response) => { return response.json(); });
+
+    if(response !== false){
+      alert("Successfully renamed the file");
+      const idx = fileIds.selectedIndex;
+      fileIds[idx].innerText = response;
+    }
+    else
+      alert("There was an error while renaming the file");
+}
+
 function loadUserDocument(id){
   window.editor.innerHTML = userInfo.data[id].contents;
   reloadButtons();
@@ -443,7 +498,7 @@ async function createAccount(){
         res.json().then(function(exists) {
           if(!exists){
             alert("Account created successfully, you will now be redirected!");
-            window.location.href = "./index.html"; //?user=" + usr;
+            reloadIndex(); //?user=" + usr;
           }
           else{
             alert("Account could not be created, user already exists!");
@@ -486,7 +541,7 @@ async function loginAccount(){
     res.json().then(function(exists) {
       if(exists){
         alert("Login Successful, redirecting...");
-        window.location.href = "./index.html"; //?user=" + usr;
+        reloadIndex(); //?user=" + usr;
       }
       else{
         alert("Incorrect details, please try again!");
@@ -538,6 +593,8 @@ async function processUserLogin(files){
     filesElem.appendChild(child);
   }
   const logoutButton = document.getElementById('logoutButton').classList.remove('hidden');
+  const newButton = document.getElementById('createDoc').classList.remove('hidden');
+  const renameButton = document.getElementById('alterDoc').classList.remove('hidden');
 }
 
 async function createNewDocument(filename){
@@ -552,6 +609,8 @@ async function createNewDocument(filename){
   const response = await fetch('/api/newfile', options)
     .then((response) => {return response.json();});
     return response;
+
+    //After creating the document switch to the newly created document
 }
 
 async function logoutUser(){
@@ -559,7 +618,7 @@ async function logoutUser(){
     userInfo.loggedIn = false;
     userInfo.data = {};
     alert("Successfully logged out the user!");
-    window.location.href = "./index.html";
+    reloadIndex();
   }
   else
     alert("There was a problem logging out, please try again!");
@@ -572,6 +631,10 @@ async function logOut(){
 }
 
 //RANDOM METHODS
+
+function reloadIndex(){
+  window.location.href = "./index.html";
+}
 
 function reloadButtons(){
   let mainchildren = window.editor.children;
@@ -599,10 +662,3 @@ function promptFileName(fileNum){
   else
     return "File " + fileNum.toString();
 }
-
-//TODO:
-
-//Save the documents on the database after writing
-//Add a button to allow the user to create new files;
-//Add a button to allow the user to rename the file
-//Add the ability for the user to Delete a file permanently (From the database ofc).
