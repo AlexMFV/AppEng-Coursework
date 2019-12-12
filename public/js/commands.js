@@ -80,8 +80,8 @@ function insertLine(){
 function getIndentValue(target){
   const baseValue = getComputedStyle(target).getPropertyValue('--indentValue');
 
-  if(baseValue === "1em" && !target.classList.contains('indentation'))
-    return "0em";
+  if(baseValue === "20px" && !target.classList.contains('indentation'))
+    return "0px";
   return baseValue;
 }
 
@@ -99,8 +99,9 @@ function indentElement(){
         elem.classList.add('indentation');
       else{
         let newValue = getComputedStyle(elem).getPropertyValue("--indentValue");
-        if(parseInt(newValue[0]) <= 8){
-          newValue = (parseInt(newValue[0])+1) + "em";
+        newValue = newValue.replace('px', '');
+        if(parseInt(newValue) <= 200){
+          newValue = (parseInt(newValue)+20) + "px";
           elem.style.setProperty('--indentValue', newValue);
         }
       }
@@ -120,8 +121,9 @@ function deindentElement(){
     if(elem.nodeName == "DIV" && elem.id != "editor"){
       if(elem.classList.contains('indentation')){
         let newValue = getComputedStyle(elem).getPropertyValue("--indentValue");
-        if(parseInt(newValue[0]) > 1){
-          newValue = (parseInt(newValue[0])-1) + "em";
+        newValue = newValue.replace('px', '');
+        if(parseInt(newValue) > 20){
+          newValue = (parseInt(newValue)-20) + "px";
           elem.style.setProperty('--indentValue', newValue);
         }
         else{
@@ -138,17 +140,21 @@ function updateHierarchy(){
 
   for(let i = 0; i < lines.length; i++){
     if(i+1 >= lines.length){
-      lines[i].children[0].innerText = '-';
+      if(lines[i].innerHTML.includes('<br>') || lines[i].children.length < 1)
+        window.editor.removeChild(lines[i]);
+      else
+        lines[i].children[0].innerText = '-';
+
       break;
     }
     else{
       if(lines[i].classList.contains('hidden') || lines[i].children[0].value === "closed")
         continue;
 
-      let currentStyle = getIndentValue(lines[i]);
-      let nextStyle = getIndentValue(lines[i+1]);
+      let currentStyle = getIndentValue(lines[i]).replace('px', '');
+      let nextStyle = getIndentValue(lines[i+1]).replace('px', '');
 
-      if(nextStyle > currentStyle)
+      if(parseInt(nextStyle) > parseInt(currentStyle))
         lines[i].children[0].innerText = '+';
       else
         lines[i].children[0].innerText = '-';
@@ -205,6 +211,34 @@ function getIndex(target, elem){
 
 //TEXT FORMATING AND STYLING
 
+function textualPointShortcut(value){
+  const selection = document.getSelection();
+  if(selection.type !== "None"){
+    let parent = selection.anchorNode.parentElement;
+    const range = selection.getRangeAt(0);
+    let startContainer = getIndex(window.editor.childNodes, range.startContainer.parentElement);
+    let endContainer = getIndex(window.editor.childNodes, range.endContainer.parentElement);
+
+    if(startContainer === -1)
+      startContainer = 0;
+
+    if(endContainer === -1)
+      endContainer = 0;
+
+    if(startContainer !== endContainer){
+      for(let i = startContainer; i <= endContainer; i++){
+        if(window.editor.childNodes[i].nodeName === "#text")
+          parent = window.editor.childNodes[i].parentElement;
+        else
+          parent = window.editor.childNodes[i];
+        applyTextualPoint(parent, parseInt(value))
+      }
+    }
+    else
+      applyTextualPoint(parent, parseInt(value));
+  }
+}
+
 function textualPoint(e){
   const index = document.getElementById('levelSelector').selectedIndex+1;
   //const target = e.target;
@@ -214,6 +248,10 @@ function textualPoint(e){
   if(selection.type !== "None"){
     let parent = selection.anchorNode.parentElement;
     const range = selection.getRangeAt(0);
+
+    if(parent == window.editor)
+      parent = range.startContainer;
+
     let startContainer = getIndex(window.editor.childNodes, range.startContainer.parentElement);
     let endContainer = getIndex(window.editor.childNodes, range.endContainer.parentElement);
 
@@ -244,7 +282,7 @@ function applyTextualPoint(parent, value){
     if(parent.id == "" && !parent.classList.contains('container')){
       parent.classList.remove('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
       if(value !== 4)
-        parent.classList.add('h' + (value > 4 ? value-1 : value));
+      parent.classList.add('h' + (value > 4 ? value-1 : value));
     }
     else {
       //Since the first child is not encapsulated, then this need to be done
@@ -252,7 +290,7 @@ function applyTextualPoint(parent, value){
         const newDiv = document.createElement('div');
         newDiv.innerText = parent.firstChild.textContent;
         if(value !== 4)
-          newDiv.classList.add('h' + (value > 4 ? value-1 : value));
+        newDiv.classList.add('h' + (value > 4 ? value-1 : value));
         parent.replaceChild(newDiv, parent.firstChild);
       }
     }
@@ -272,15 +310,15 @@ function buttonDoubleClick(e){
     const parent = e.target.parentElement;
     let baseValue = getComputedStyle(parent).getPropertyValue('--indentValue');
 
-    if(!parent.classList.contains('indentation') && baseValue === "1em")
-      baseValue = "0em";
+    if(!parent.classList.contains('indentation') && baseValue === "20px")
+      baseValue = "0px";
 
     for(let i = 0; i < children.length; i++){
       if(i > index){
         let selectedValue = getComputedStyle(children[i]).getPropertyValue('--indentValue');
 
-        if(!children[i].classList.contains('indentation') && selectedValue === "1em")
-          selectedValue = "0em";
+        if(!children[i].classList.contains('indentation') && selectedValue === "20px")
+          selectedValue = "0px";
 
         if(selectedValue <= baseValue)
           break;

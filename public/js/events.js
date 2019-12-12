@@ -49,20 +49,24 @@ window.editor.onkeydown = (e) => {
     initializeDocument();
   }
 
-  // if(e.code === "KeyB" && (e.metaKey || e.ctrlKey)){
-  //   //boldText();
-  //   return false;
-  // }
-  //
-  // if(e.code === "KeyU" && (e.metaKey || e.ctrlKey)){
-  //   //underlineText();
-  //   return false;
-  // }
-  //
-  // if(e.code === "KeyI" && (e.metaKey || e.ctrlKey)){
-  //   //italicText();
-  //   return false;
-  // }
+  if(e.key >= "1" && e.key <= "7" && (e.metaKey || e.ctrlKey)){
+    textualPointShortcut(e.key);
+  }
+
+  //Disable bold
+  if(e.code === "KeyB" && (e.metaKey || e.ctrlKey)){
+    return false;
+  }
+
+  //Disable underline
+  if(e.code === "KeyU" && (e.metaKey || e.ctrlKey)){
+    return false;
+  }
+
+  //Disable Italic
+  if(e.code === "KeyI" && (e.metaKey || e.ctrlKey)){
+    return false;
+  }
 
   if(e.code === "Backspace"){
     if(processBackSpace())
